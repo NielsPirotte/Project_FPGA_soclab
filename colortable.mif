@@ -1,0 +1,43 @@
+
+-- Clearbox generated Memory Initialization File (.mif)
+
+WIDTH=24;
+DEPTH=32;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+	00  :   FFFFF0;
+	01  :   FFFFF1;
+	02  :   FFFFF2;
+	03  :   FFFFF3;
+	04  :   FFFFF4;
+	05  :   FFFFF5;
+	06  :   FFFFF6;
+	07  :   FFFFF7;
+	08  :   FFFFF8;
+	09  :   FFFFF9;
+	0a  :   FFFFFA;
+	0b  :   FFFFFB;
+	0c  :   FFFFFC;
+	0d  :   FFFFFD;
+	0e  :   FFFFFE;
+	0f  :   FFFFFF;
+	10  :   FFFFF0;
+	11  :   FFFFF1;
+	12  :   FFFFF2;
+	13  :   FFFFF3;
+	14  :   FFFFF4;
+	15  :   FFFFF5;
+	16  :   FFFFF6;
+	17  :   FFFFF7;
+	18  :   FFFFF8;
+	19  :   FFFFF9;
+	1a  :   FFFFFA;
+	1b  :   FFFFFB;
+	1c  :   FFFFFC;
+	1d  :   FFFFFD;
+	1e  :   FFFFFE;
+	1f  :   FFFFFF;
+END;
