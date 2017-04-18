@@ -16,7 +16,9 @@ wire [7:0] address;
 assign address = {x, y};
 
 //first bit of the sprite pattern
+	//pattern loaded in mif-file:  sprite1.mif
 ram_mov_sprite1 rms1(.clock(clock), .address(address), .wen(1'b0), .data(0), .q(sprite1));
+	//pattern loaded in mif-file:  sprite1.mif
 ram_mov_sprite2 rms2(.clock(clock), .address(address), .wen(1'b0), .data(0), .q(sprite2));
 
 //select the correct sprite

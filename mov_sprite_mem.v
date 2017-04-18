@@ -26,6 +26,7 @@ always @(select) begin
 	case(select)
 		0: out = sprite1;
 		1: out = sprite2;
+		default: out = 0;
 	endcase 
 end
 
