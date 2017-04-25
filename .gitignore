@@ -1,4 +1,4 @@
 #ignore quartus project files
-#Project_Soclab_Goiris_Pirotte.*
+Project_Soclab_Goiris_Pirotte.*
 #ignore db/ directory
 db/
