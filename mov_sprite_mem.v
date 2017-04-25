@@ -1,4 +1,4 @@
-module mov_sprite_mem(clock, select, x, y, out);
+module mov_sprite_mem(clock, select, x, y, out, men);
 //select -> number of the sprite -> 64 posibilities
 //x -> w position of the pixel in the 16x16 array
 
@@ -7,6 +7,7 @@ input [3:0] x, y;
 input [5:0] select;
 
 output reg [1:0] out;
+output men;
 
 wire [1:0] sprite1;
 wire [1:0] sprite2;
@@ -23,10 +24,11 @@ ram_mov_sprite2 rms2(.clock(clock), .address(address), .wen(1'b0), .data(0), .q(
 
 //select the correct sprite
 always @(select) begin
+	men = 1;
 	case(select)
 		0: out = sprite1;
 		1: out = sprite2;
-		default: out = 0;
+		default: begin out = 0; men = 0; end
 	endcase 
 end
 

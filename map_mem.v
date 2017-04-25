@@ -1,4 +1,4 @@
-module mov_sprite_mem(clock, select, x, y, out);
+module map_mem(clock, select, x, y, out);
 //select -> number of the sprite -> 64 posibilities
 //x -> w position of the pixel in the 16x16 array
 
@@ -8,8 +8,8 @@ input [5:0] select;
 
 output reg [1:0] out;
 
-wire [1:0] sprite1;
-wire [1:0] sprite2;
+wire [1:0] grass;
+wire [1:0] ground;
 //....continue to make sprites for more moving sprites
 
 wire [7:0] address;
@@ -17,15 +17,15 @@ assign address = {x, y};
 
 //first bit of the sprite pattern
 	//pattern loaded in mif-file:  sprite1.mif
-ram_mov_sprite1 rms1(.clock(clock), .address(address), .wen(1'b0), .data(0), .q(sprite1));
+map_grass grass(.clock(clock), .address(address), .wen(1'b0), .data(0), .q(grass));
 	//pattern loaded in mif-file:  sprite1.mif
-ram_mov_sprite2 rms2(.clock(clock), .address(address), .wen(1'b0), .data(0), .q(sprite2));
+map_ground ground(.clock(clock), .address(address), .wen(1'b0), .data(0), .q(ground));
 
 //select the correct sprite
 always @(select) begin
 	case(select)
-		0: out = sprite1;
-		1: out = sprite2;
+		0: out = grass;
+		1: out = ground;
 		default: out = 0;
 	endcase 
 end

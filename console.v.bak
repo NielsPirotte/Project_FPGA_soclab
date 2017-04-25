@@ -22,7 +22,7 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 
 	//VGA with picture processing unit (ppsu)
 	//attributes is used by the statemachine to ajust the moving sprites in the ppu
-	//wire attributes;
+	//wire [] attributes;
 	wire hsync, vsync;
 	assign oVGA_CLOCK = clock;
 	assign oVGA_SYNC_N = 1'b0;
@@ -30,7 +30,7 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	assign oVGA_BLANK_N = hsync & vsync;
 	
 	wire [9:0] red, green, blue;
-	ppu ppu(clock, reset, red, green, blue, hsync, vsync);
+	ppu ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
 
 	assign oVGA_R = red;
 	assign oVGA_G = green;
@@ -45,7 +45,7 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	//databus
 	//not yet implemented
 	
-	//clock signal with pll
+	//clock signal with pll - 
 	wire clock;
 	pll pll(reset, iCLK_50, clock);
 

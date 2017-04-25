@@ -45,7 +45,7 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	//databus
 	//not yet implemented
 	
-	//clock signal with pll
+	//clock signal with pll - 108Mhz
 	wire clock;
 	pll pll(reset, iCLK_50, clock);
 
