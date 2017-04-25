@@ -18,6 +18,7 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	
 //define interfaces
 	//reset button
+	wire reset;
 	assign reset = ~iKEY[0];
 
 	//VGA with picture processing unit (ppsu)
@@ -29,15 +30,26 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	assign oVGA_HS = hsync; assign oVGA_VS = vsync;
 	assign oVGA_BLANK_N = hsync & vsync;
 	
+	//connection between statemachine and ppu
+	
+	
 	wire [9:0] red, green, blue;
-	ppu ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
+	
+	wire update;
+	wire [179:0] sprites;
+	wire [131:0] statics;
+	
+	wire [11:0] offset_x, offset_y;
+	
+	ppu picture_proc_unit(clock, reset, red, green, blue, hsync, vsync, update, sprites, statics, offset_x, offset_y);
 
 	assign oVGA_R = red;
 	assign oVGA_G = green;
-	assign oVGA_B : blue;
+	assign oVGA_B = blue;
 	
 	//the game statemachine
-	statemachine sm(clock, reset, iSW, attributes);
+	statemachine sm(clock, reset, iSW, sprites, statics, offset_x, offset_y);
+	
 	
 	//rom
 	//not yet implemented

@@ -2,3 +2,5 @@
 Project_Soclab_Goiris_Pirotte.*
 #ignore db/ directory
 db/
+#ignore incremental_db/ directory
+incremental_db/

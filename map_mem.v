@@ -17,12 +17,12 @@ assign address = {x, y};
 
 //first bit of the sprite pattern
 	//pattern loaded in mif-file:  sprite1.mif
-map_grass grass(.clock(clock), .address(address), .wen(1'b0), .data(0), .q(grass));
+map_grass grassmap(.clock(clock), .address(address), .wren(1'b0), .data({2{1'b0}}), .q(grass));
 	//pattern loaded in mif-file:  sprite1.mif
-map_ground ground(.clock(clock), .address(address), .wen(1'b0), .data(0), .q(ground));
+map_ground groundmap(.clock(clock), .address(address), .wren(1'b0), .data({2{1'b0}}), .q(ground));
 
 //select the correct sprite
-always @(select) begin
+always @(select or grass or ground) begin
 	case(select)
 		0: out = grass;
 		1: out = ground;

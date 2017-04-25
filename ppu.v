@@ -18,7 +18,7 @@
 	//Color table map: Stores the color patterns of the map -- 16 Byte
 
 
-module ppu(clock, reset, red, green, blue, hsync, vsync, attributes); 
+module ppu(clock, reset, red, green, blue, hsync, vsync, update, sprites, statics, offset_x, offset_y); 
 
 //input and output values
 	input clock, reset;
@@ -26,9 +26,8 @@ module ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
 	
 	//Determined by the State Machine (CPU)
 	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-	input [] offset_pos
-	input [] sprites;		//updated sprite table
-	input [] statics;		//updated static table
+	input [179:0] sprites;		//updated sprite table
+	input [131:0] statics;		//updated static table
 	
 	//the current x-position top corner of the viewport
 	input [11:0] offset_x;
@@ -36,7 +35,7 @@ module ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
 	input [11:0] offset_y;
 	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	
-	output [9:0] red, green, blue;
+	output reg [9:0] red, green, blue;
 	output vsync, hsync;
 	
 	//define registers and buffers
@@ -46,8 +45,13 @@ module ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
 	//calculate relative positions
 	//the current x-position of pixel to write
 		wire [11:0] display_col;
-		//the current y-position of the pixel to write via VGA-protocol
+	//the current y-position of the pixel to write via VGA-protocol
 		wire [10:0] display_row;
+		
+	//the absolute x-position of the write
+		wire [11:0] abs_x;
+	//the absolute y-position of the write
+		wire [11:0] abs_y;
 		
 		//current tile collumn-position in the map absolute
 		wire [6:0] collumn;
@@ -58,40 +62,34 @@ module ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
 		wire [3:0] rel_x;
 		//current relative y-position in a certain tile
 		wire [3:0] rel_y;
-
-		assign collumn = (offset_x + display_col)[10:4];
-		assign row = (offset_y + display_row)[10:4];
-		assign rel_x = (offset_x + display_col)[3:0];
-		assign rel_y = (offset_y + display_row)[3:0];
+		
+		assign abs_x = offset_x_r + display_col;
+		assign abs_y = offset_y_r + display_row;
+		assign collumn = abs_x[10:4];
+		assign row = abs_y[10:4];
+		assign rel_x = abs_x[3:0];
+		assign rel_y = abs_y[3:0];
 		
 		//defining the sprite table
-		//sprite:
+		//sprite: from least sig to heighest sig bits
 		// xpos, ypos in world each 11 bits
 		// char
 		// attribute
-		reg [29:0] sprite1, sprite2, sprite3, sprite4, sprite5 sprite6;
+		reg [29:0] sprite1, sprite2, sprite3, sprite4, sprite5, sprite6;
 		
 		//defining the static table
+		//static: from least sig to heighest sig bits
+		// collumn, row in 7 bits each
+		// char
+		// attribute
 		reg [21:0] static1, static2, static3, static4, static5, static6;
 		
 		//schrijft nieuwe registers
 		always @(posedge clock or posedge reset) begin
-			if(reset) begin 
-				sprite1 = sprites[29:0];
-				sprite2 = sprites[59:30];
-				sprite3 = sprites[89:60];
-				sprite4 = sprites[119:90];
-				sprite5 = sprites[149:120];
-				sprite6 = sprites[179:150];
+			if(reset) begin
+				offset_x_r = 0;
+				offset_y_r = 0;
 				
-				static1 = statics[29:0];
-				static2 = statics[59:30];
-				static3 = statics[89:60];
-				static4 = statics[119:90];
-				static5 = statics[149:120];
-				static6 = statics[179:150];
-			end
-			else begin
 				sprite1 = 0;
 				sprite2 = 0;
 				sprite3 = 0;
@@ -105,10 +103,61 @@ module ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
 				static4 = 0;
 				static5 = 0;
 				static6 = 0;
-		
-		
+			end
+			else begin
+				if(update) begin
+					offset_x_r = offset_x;
+					offset_y_r = offset_y;
+					
+					sprite1 = sprites[29:0];
+					sprite2 = sprites[59:30];
+					sprite3 = sprites[89:60];
+					sprite4 = sprites[119:90];
+					sprite5 = sprites[149:120];
+					sprite6 = sprites[179:150];
+					
+					static1 = statics[21:0];
+					static2 = statics[43:22];
+					static3 = statics[65:44];
+					static4 = statics[87:66];
+					static5 = statics[109:88];
+					static6 = statics[131:110];
+				end		
 			end
 		end
+		
+		//select the correct sprite or  ifo the current position
+		reg [29:0] selSprite;
+		reg sprite_en;
+		always @(sprite1 or sprite2 or sprite3 or sprite4 or sprite5 or sprite6 or abs_x or abs_y) begin
+			sprite_en = 0;
+			selSprite = 0;
+			if((sprite1[10:0]-abs_x)== 0 && (sprite1[21:11]-abs_y)==0) selSprite = sprite1;
+			if((sprite2[10:0]-abs_x)== 0 && (sprite2[21:11]-abs_y)==0) selSprite = sprite2;
+			if((sprite3[10:0]-abs_x)== 0 && (sprite3[21:11]-abs_y)==0) selSprite = sprite3;
+			if((sprite4[10:0]-abs_x)== 0 && (sprite4[21:11]-abs_y)==0) selSprite = sprite4;
+			if((sprite5[10:0]-abs_x)== 0 && (sprite5[21:11]-abs_y)==0) selSprite = sprite5;
+			if((sprite6[10:0]-abs_x)== 0 && (sprite6[21:11]-abs_y)==0) selSprite = sprite6;
+			
+			if(selSprite != 0) sprite_en = 1;
+		end
+		
+		//select the correct static ifo the current position
+		//define the line buffer
+		reg [21:0] selStatic;
+		reg static_en;
+		always @(static1 or static2 or static3 or static4 or static5 or static6 or collumn or row) begin
+			static_en = 0;
+			selStatic = 0;
+			if((static1[6:0]-collumn)== 0 && (static1[13:7]-row)==0) selStatic = static1;
+			if((static2[6:0]-collumn)== 0 && (static2[13:7]-row)==0) selStatic = static2;
+			if((static3[6:0]-collumn)== 0 && (static3[13:7]-row)==0) selStatic = static3;
+			if((static4[6:0]-collumn)== 0 && (static4[13:7]-row)==0) selStatic = static4;
+			if((static5[6:0]-collumn)== 0 && (static5[13:7]-row)==0) selStatic = static5;
+			if((static6[6:0]-collumn)== 0 && (static6[13:7]-row)==0) selStatic = static6;
+			
+			if(selStatic != 0) static_en = 1;
+		end	
 	
 //define interfaces
 	//vga controller for communicating via VGA-protocol
@@ -137,59 +186,58 @@ module ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
 	//attribute table for static sprites
 	//64 different static sprites
 	//each tile described with 6 bits (->character on this position) and 2 bits attribute (-> color pallete)
-	wire [5:0] selstatic;
-	wire stat_enable;
-	
 	//select = #sprite number
-	//note: a sprite is 16x16x2 bits = 64bits
 	wire [1:0] staticout;
 	//this memory defines the different building block of the static sprites
-	stat_sprite_mem ssm(.clock(clock), .select(selstatic), .x(rel_x), .y(rel_y), .out(staticout)); //ok
+	stat_sprite_mem ssm(.clock(clock), .select(selStatic[19:14]), .x(rel_x), .y(rel_y), .out(staticout)); //ok
 	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	
 	//attribute table -> written each jump of hor line - row
-	wire [5:0] selSprite;
 	//select = #sprite number
-		//note: a sprite is 16x16x2 bits = 64bits
 	wire [1:0] spriteout;
-	wire sprite_enable;
-	mov_sprite_mem msm(.clock(clock), .select(selSprite), .x(selRelX), .y(selRelY), .out(spriteout));
-
+	mov_sprite_mem msm(.clock(clock), .select(selSprite[27:22]), .x(rel_x), .y(rel_y), .out(spriteout));
 	
-	//colortable
-	//the most sig bit of the selColor address selects if the map or the spirte colortable is used
-	wire map_enable;
-	assign map_enable = ~(sprite_enable | stat_enable);
-	wire [4:0] selcolor; //first bit for select map colors or sprite colors
-	assign selcolor =  {map_enable, sel};
-	//4 bits for selecting the colors // first 2 for pallete select // last 2 for pixeldata (dependent on x and y)
-	ram_colortable ct(.address(selColor), .clock(clock), .data(0), .wren(1'b0), .q(colors));
-	
-	wire [3:0] sel;
-	always @(sprite_enable or stat_enable or selsprite[1:0] or spriteout or selstatic[1:0] or staticout or selmap[1:0] or mapout) begin
-		if(sprite_enable) begin
-			sel = {selsprite[1:0], spriteout};
+	//determine what needs to be rendered on this pos
+	reg [3:0] sel;
+	always @(sprite_en or static_en or selSprite[29:28] or spriteout or selStatic[21:20] or staticout or selmap[1:0] or mapout) begin
+		if(sprite_en) begin
+			sel = {selSprite[29:28], spriteout};
 		end
-		else if(stat_enable) begin
-			sel = {selstatic[1:0], staticout};
+		else if(static_en) begin
+			sel = {selStatic[21:20], staticout};
 		end
 		else begin
 			sel = {{2{1'b0}}, mapout};
 		end
 	end 
+	
+	//colortable
+	//the most sig bit of the selColor address selects if the map or the spirte colortable is used
+	wire map_enable;
+	assign map_enable = ~(sprite_en | static_en);
+	wire [4:0] selColor; //first bit for select map colors or sprite colors
+	assign selColor =  {map_enable, sel};
+	//4 bits for selecting the colors // first 2 for pallete select // last 2 for pixeldata (dependent on x and y)
+	wire [23:0] colors;
+	ram_colortable ct(.address(selColor), .clock(clock), .data({24{1'b0}}), .wren(1'b0), .q(colors));
+	
+	//renderline // not yet implemented
+	
+	
+	
 
 //determine rgb values of the current pixel with coordinates x = display_col and y = display_row
 		always @(posedge clock) begin 
 			if (visible) begin
 				//what color should the current pixel be?
-				red = colors[23:16];
-				green = colors[15:8];
-				blue = colors[7:0];
+				red = {colors[23:16], {2{1'b0}}};
+				green = {colors[15:8], {2{1'b0}}};
+				blue = {colors[7:0], {2{1'b0}}};
 			end
 			else begin
-				red = 0;
-				green = 0;
-				blue = 0;
+				red = {10{1'b0}};
+				green = {10{1'b0}};
+				blue = {10{1'b0}};
 			end
 		end
 		
