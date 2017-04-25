@@ -1,6 +1,10 @@
 //picture processing unit
-//statemachine can put data on the databus, which the the ppu can store in his RAM
-//the video ram has a mem mapping with different kinds of memory
+//statemachine writes the new relative positions of the dynamic sprites, which the the ppu can store in his sprite table
+//statemachine determines changes for static sprites
+//Here only absolute positions are used
+
+//ppu determines the relative positions ifo the screen
+//depentend off the display_col and display_row new positions are calculated
 
 //first note: the game has 3 kinds of objects -> 1.Moving sprite	2.Background or stationary sprite	3.Map or scenary
 //second note: a object has a 16x16 bit pattern
@@ -18,10 +22,93 @@ module ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
 
 //input and output values
 	input clock, reset;
-	input [] attributes; //not yet implemented
+	input update;		//When update becomes true, the sprite and static table are updated
+	
+	//Determined by the State Machine (CPU)
+	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+	input [] offset_pos
+	input [] sprites;		//updated sprite table
+	input [] statics;		//updated static table
+	
+	//the current x-position top corner of the viewport
+	input [11:0] offset_x;
+	//the current y-position top corner of the viewport
+	input [11:0] offset_y;
+	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	
 	output [9:0] red, green, blue;
 	output vsync, hsync;
+	
+	//define registers and buffers
+	reg [11:0] offset_x_r;
+	reg [11:0] offset_y_r;
+
+	//calculate relative positions
+	//the current x-position of pixel to write
+		wire [11:0] display_col;
+		//the current y-position of the pixel to write via VGA-protocol
+		wire [10:0] display_row;
+		
+		//current tile collumn-position in the map absolute
+		wire [6:0] collumn;
+		//current tile row-position in the map absolute
+		wire [6:0] row;
+		
+		//current relative x-position in a certain tile
+		wire [3:0] rel_x;
+		//current relative y-position in a certain tile
+		wire [3:0] rel_y;
+
+		assign collumn = (offset_x + display_col)[10:4];
+		assign row = (offset_y + display_row)[10:4];
+		assign rel_x = (offset_x + display_col)[3:0];
+		assign rel_y = (offset_y + display_row)[3:0];
+		
+		//defining the sprite table
+		//sprite:
+		// xpos, ypos in world each 11 bits
+		// char
+		// attribute
+		reg [29:0] sprite1, sprite2, sprite3, sprite4, sprite5 sprite6;
+		
+		//defining the static table
+		reg [21:0] static1, static2, static3, static4, static5, static6;
+		
+		//schrijft nieuwe registers
+		always @(posedge clock or posedge reset) begin
+			if(reset) begin 
+				sprite1 = sprites[29:0];
+				sprite2 = sprites[59:30];
+				sprite3 = sprites[89:60];
+				sprite4 = sprites[119:90];
+				sprite5 = sprites[149:120];
+				sprite6 = sprites[179:150];
+				
+				static1 = statics[29:0];
+				static2 = statics[59:30];
+				static3 = statics[89:60];
+				static4 = statics[119:90];
+				static5 = statics[149:120];
+				static6 = statics[179:150];
+			end
+			else begin
+				sprite1 = 0;
+				sprite2 = 0;
+				sprite3 = 0;
+				sprite4 = 0;
+				sprite5 = 0;
+				sprite6 = 0;
+				
+				static1 = 0;
+				static2 = 0;
+				static3 = 0;
+				static4 = 0;
+				static5 = 0;
+				static6 = 0;
+		
+		
+			end
+		end
 	
 //define interfaces
 	//vga controller for communicating via VGA-protocol
@@ -29,32 +116,6 @@ module ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
 		//declaration of the display controller 
 		vga_controller #(.HOR_FIELD (1279), .HOR_STR_SYNC(1327), .HOR_STP_SYNC(1439), .HOR_TOTAL (1687), .VER_FIELD (1023), .VER_STR_SYNC (1024), .VER_STP_SYNC (1027), .VER_TOTAL (1065))
 		controller (.clock(clock), .reset(reset), .display_col(display_col), .display_row(display_row), .visible(visible), .hsync(hsync), .vsync(vsync));
-		
-		
-		//the current x-position of pixel to write
-		wire [11:0] display_col;
-		//the current y-position of the pixel to write via VGA-protocol
-		wire [10:0] display_row;
-		
-		//the current x-position top corner of the viewport
-		wire [11:0] offset_x;
-		//the current y-position top corner of the viewport
-		wire [11:0] offset_y;
-		
-		//current tile collumn-position in the map
-		wire [6:0] collumn;
-		//current tile row-position in the map
-		wire [6:0] row;
-		
-		//current relative x-position in a certain tile
-		wire [3:0] rel_x;
-		//current relative y-position in a certain tile
-		wire [3:0] rel_y;
-		
-		assign collumn = (offset_x + display_col)[10:4];
-		assign row = (offset_y + display_row)[10:4];
-		assign rel_x = (offset_x + display_col)[3:0];
-		assign rel_y = (offset_y + display_row)[3:0];
 	
 	//videoRAM
 	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -76,9 +137,8 @@ module ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
 	//attribute table for static sprites
 	//64 different static sprites
 	//each tile described with 6 bits (->character on this position) and 2 bits attribute (-> color pallete)
-	wire [7:0] selstatic;
-	wire stat_enable
-	staticsprites sp(.clock(clock), .reset(reset), .collumn(collumn), .row(row), .out(selstatic), wen(stat_enable));
+	wire [5:0] selstatic;
+	wire stat_enable;
 	
 	//select = #sprite number
 	//note: a sprite is 16x16x2 bits = 64bits
@@ -88,13 +148,12 @@ module ppu(clock, reset, red, green, blue, hsync, vsync, attributes);
 	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	
 	//attribute table -> written each jump of hor line - row
-	wire [28:0] selsprite;
-	moving_sprite_table mst(.clock(clock), .address(), .wren(), .data(), .q(selsprite));
+	wire [5:0] selSprite;
 	//select = #sprite number
 		//note: a sprite is 16x16x2 bits = 64bits
 	wire [1:0] spriteout;
 	wire sprite_enable;
-	mov_sprite_mem msm(.clock(clock), .select(selsprite[7:2]), .x(selsprite[28:18]), .y(selsprite[17:8]), .out(spriteout), .men(sprite_enable));
+	mov_sprite_mem msm(.clock(clock), .select(selSprite), .x(selRelX), .y(selRelY), .out(spriteout));
 
 	
 	//colortable
