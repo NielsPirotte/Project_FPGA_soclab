@@ -1,7 +1,8 @@
-module statemachine(clock, reset, controls, sprites, statics, offset_x, offset_y);
+module statemachine(clock, reset, controls, sprites, statics, offset_x, offset_y, update);
 
 input clock, reset;
 input [17:0] controls;
+input update;
 
 output [179:0] sprites;
 output [131:0] statics;

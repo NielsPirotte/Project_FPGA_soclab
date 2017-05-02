@@ -48,7 +48,7 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	assign oVGA_B = blue;
 	
 	//the game statemachine
-	statemachine sm(clock, reset, iSW, sprites, statics, offset_x, offset_y);
+	statemachine sm(clock, reset, iSW, sprites, statics, offset_x, offset_y, update);
 	
 	
 	//rom

@@ -33,7 +33,7 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	//connection between statemachine and ppu
 	
 	
-	wire [7:0] red, green, blue;
+	wire [9:0] red, green, blue;
 	
 	wire update;
 	wire [179:0] sprites;
