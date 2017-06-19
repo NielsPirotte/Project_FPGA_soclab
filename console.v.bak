@@ -1,4 +1,4 @@
-//A consol:e for playing games
+//A console for playing a fighting game
 //interface: leds for feedback, reset button, VGA interface, switches for settings 
 
 module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVGA_CLOCK, oVGA_SYNC_N, oVGA_BLANK_N);
@@ -36,26 +36,27 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	wire [9:0] red, green, blue;
 	
 	wire update;
-	wire [179:0] sprites;
+	wire [] sprites;
 	wire [131:0] statics;
 	
 	wire [11:0] offset_x, offset_y;
 	
-	ppu picture_proc_unit(clock, reset, red, green, blue, hsync, vsync, update, sprites, statics, offset_x, offset_y);
+	ppu picture_proc_unit(.clock(clock), .reset(reset), .red(red), .green(green), .blue(blue), .hsync(hsync), .vsync(vsync), 
+						  .update(update), .sprites(sprites), .statics(statics), .offset_x(offset_x), .offset_y(offset_y));
 
 	assign oVGA_R = red;
 	assign oVGA_G = green;
 	assign oVGA_B = blue;
 	
 	//the game statemachine
-	statemachine sm(clock, reset, iSW, sprites, statics, offset_x, offset_y);
+	statemachine sm(clock, reset, iSW, sprites, statics, offset_x, offset_y, update);
 	
 	
 	//rom
 	//not yet implemented
 	
 	//databus
-	//not yet implemented
+	//is represented by the sprites and statics bus
 	
 	//clock signal with pll - 108Mhz
 	wire clock;
