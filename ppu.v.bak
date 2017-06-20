@@ -26,8 +26,8 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 	
 	//Determined by the State Machine (CPU)
 	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-	input [179:0] sprites;		//updated sprite table
-	input [131:0] statics;		//updated static table
+	input [57:0] sprites;		//updated sprite table
+	input [0:0] statics;		//updated static table
 	
 	//the current x-position top corner of the viewport
 	input [11:0] offset_x;
@@ -79,14 +79,24 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 		// xpos, ypos in world each 11 bits
 		// char
 		// attribute -> color
-		reg [29:0] sprite1, sprite2;
+		reg [27:0] sprite1, sprite2;
+		wire [11:0] display_x_sp1, display_x_sp2;
+		wire [10:0] display_y_sp1, display_y_sp2;
+		
+		assign display_x_sp1 = {sprite1[27:19],{2{1'b0}}}+{16{1'b1}};
+		assign display_x_sp2 = {sprite2[27:19],{2{1'b0}}}+{16{1'b1}};
+		
+		assign display_y_sp1 = {1'b0,{11{1'b1}}-{sprite1[18:10],{2{1'b0}}}};
+		assign display_y_sp2 = {1'b0,{11{1'b1}}-{sprite2[18:10],{2{1'b0}}}};
+		
+		
 		
 		//defining the static table
 		//static: from least sig to heighest sig bits
 		// collumn, row in 7 bits each
 		// char
 		// attribute -> color
-		reg [21:0] static1, static2, static3, static4, static5, static6;
+		reg [0:0] static1, static2, static3, static4, static5, static6; //test
 		
 		//schrijft nieuwe registers
 		always @(posedge clock or posedge reset) begin
@@ -105,19 +115,20 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 				static6 = 0;
 			end
 			else begin
-				if(update && vsync) begin
+				if(update && hsync) begin
 					offset_x_r = offset_x;
 					offset_y_r = offset_y;
 					
-					sprite1 = sprites[29:0];
-					sprite2 = sprites[59:30];
-					
-					static1 = statics[21:0];
-					static2 = statics[43:22];
-					static3 = statics[65:44];
-					static4 = statics[87:66];
-					static5 = statics[109:88];
-					static6 = statics[131:110];
+					sprite1 = sprites[57:32];
+					sprite2 = sprites[31:0];
+				end
+				if(update && vsync) begin
+					static1 = statics[0:0];
+					static2 = statics[0:0];
+					static3 = statics[0:0];
+					static4 = statics[0:0];
+					static5 = statics[0:0];
+					static6 = statics[0:0];
 				end		
 			end
 		end
@@ -126,49 +137,98 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 		//END DATABUS
 		//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		
-		//spritebuffer -> render only sprites in current line
-		reg [29:0] sprite1buf, sprite2buf;
-		always @(posedge clock or posedge reset) begin
-			if(reset) begin
-				sprite1buf = 0;
-				sprite2buf = 0;
+		//select the correct sprite or  ifo the current position
+		reg [4:0] selSprite;
+		reg [7:0] relx_s1, relx_s2;
+		reg negx_s1, negx_s2;
+		reg [7:0] rely_s1, rely_s2;
+		reg negy_s1, negy_s2;
+		always @(display_x_sp1 or abs_x) begin
+			if(display_x_sp1<abs_x) begin
+				relx_s1 = abs_x-display_x_sp1;
+				negx_s1 = 0;	
 			end
 			else begin
-				if(hsync) begin
-					if(() sprite1buf = sprite1;
-					if((sprite2[21:11]-abs_y)==0) sprite2buf = sprite2;
-				end
-			end		
+				relx_s1 = display_x_sp1 - abs_x;
+				negx_s1 = 1;
+			end
 		end
 		
-		//select the correct sprite or  ifo the current position
-		reg [28:0] selSprite;
+		always @(display_x_sp2 or abs_x) begin
+			if(display_x_sp2<abs_x) begin
+				relx_s2 = abs_x-display_x_sp2;
+				negx_s2 = 0;
+			end
+			else begin
+				relx_s2 = display_x_sp2 - abs_x;
+				negx_s2 = 1;
+			end
+		end
+		
+		always @(display_y_sp1 or abs_y) begin
+			if(display_y_sp1<abs_y) begin
+				rely_s1 = abs_y-display_y_sp1;
+				negy_s1 = 0;
+			end
+			else begin
+				negy_s1 = 1;
+			end
+		end
+		
+		always @(display_y_sp2 or abs_y) begin
+			if(display_y_sp2<abs_y) begin
+				rely_s2 = abs_y-display_y_sp2;
+				negy_s2 = 0;
+			end
+			else begin
+				negy_s2 = 1;
+			end
+		end
+		
+		reg negx, negy;
+		reg relxs, relys;
 		reg sprite_en;
-		always @(sprite1 or sprite2 or sprite3 or sprite4 or sprite5 or sprite6 or abs_x or abs_y) begin
+		always @(sprite1 or sprite2 or abs_x or abs_y) begin
 			sprite_en = 0;
 			selSprite = 0;
-			if((sprite1[10:0]-abs_x)== 0 && (sprite1[21:11]-abs_y)==0) selSprite = sprite1;
-			if((sprite2[10:0]-abs_x)== 0 && (sprite2[21:11]-abs_y)==0)) selSprite = sprite2;
+			negx = 0;
+			negy = 0;
+			relxs = 0;
+			relys = 0;
 			
+			if((relx_s1 < 127) && (rely_s1<127) && !negy_s1) begin 
+				selSprite = sprite1[7:0];
+				negx = negx_s1;
+				relxs = relx_s1;
+				relys = rely_s1;
+			end
+			if((relx_s2 < 127) && (rely_s2<127) && !negy_s2) begin
+				selSprite = sprite2[7:0];
+				negx = negx_s2;
+				relxs = relx_s2;
+				relys = rely_s2;
+			end
 			if(selSprite != 0) sprite_en = 1;
 		end
 		
 		//select the correct static i.f.o. the current position
 		//define the line buffer
-		reg [21:0] selStatic;
-		reg static_en;
-		always @(static1 or static2 or static3 or static4 or static5 or static6 or collumn or row) begin
-			static_en = 0;
-			selStatic = 0;
-			if((static1[6:0]-collumn)== 0 && (static1[13:7]-row)==0) selStatic = static1;
-			if((static2[6:0]-collumn)== 0 && (static2[13:7]-row)==0) selStatic = static2;
-			if((static3[6:0]-collumn)== 0 && (static3[13:7]-row)==0) selStatic = static3;
-			if((static4[6:0]-collumn)== 0 && (static4[13:7]-row)==0) selStatic = static4;
-			if((static5[6:0]-collumn)== 0 && (static5[13:7]-row)==0) selStatic = static5;
-			if((static6[6:0]-collumn)== 0 && (static6[13:7]-row)==0) selStatic = static6;
-			
-			if(selStatic != 0) static_en = 1;
-		end	
+		wire [21:0] selStatic; 
+		assign selStatic = 0;
+		
+//		reg static_en;
+//		always @(static1 or static2 or static3 or static4 or static5 or static6 or collumn or row) begin
+//			static_en = 0;
+//			selStatic = 0;
+//			if((static1[6:0]-collumn)== 0 && (static1[13:7]-row)==0) selStatic = static1;
+//			if((static2[6:0]-collumn)== 0 && (static2[13:7]-row)==0) selStatic = static2;
+//			if((static3[6:0]-collumn)== 0 && (static3[13:7]-row)==0) selStatic = static3;
+//			if((static4[6:0]-collumn)== 0 && (static4[13:7]-row)==0) selStatic = static4;
+//			if((static5[6:0]-collumn)== 0 && (static5[13:7]-row)==0) selStatic = static5;
+//			if((static6[6:0]-collumn)== 0 && (static6[13:7]-row)==0) selStatic = static6;
+//			
+//			if(selStatic != 0) static_en = 1;
+//		end	
 	
 //define interfaces
 	//vga controller for communicating via VGA-protocol
@@ -187,7 +247,7 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 	//background table:
 	//1024x1024 pixels
 	//each pixel has a color value of 12 bit (4 red, 4 green, 4 blue)
-	map map(.clock(clock), .x(display_x-10)), .y(display_y), .out(mapcolors));
+	map map(.clock(clock), .x(display_x-10), .y(display_y), .out(mapcolors));
 	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	
 	//attribute table for static sprites
@@ -196,13 +256,14 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 	//select = #sprite number
 	wire [1:0] staticout;
 	//this memory defines the different building block of the static sprites
-	stat_sprite_mem ssm(.clock(clock), .select(selStatic[19:14]), .x(rel_x), .y(rel_y), .out(staticout));
+	//stat_sprite_mem ssm(.clock(clock), .select(selStatic[19:14]), .x(rel_x), .y(rel_y), .out(staticout));
+	assign staticout = 0;
 	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	
 	//attribute table -> written each jump of hor line - row
 	//select = #sprite number
 	wire [1:0] spriteout;
-	mov_sprite_mem msm(.clock(clock), .select(selSprite[27:22]), .x(rel_x), .y(rel_y), .out(spriteout));
+	mov_sprite_mem msm(.clock(clock), .char(selSprite[3:0]), .x(rel_xs), .y(rel_ys), .nx(neg_y), .out(spriteout), .mirror(!selSprite[4]));
 	
 	//determine what needs to be rendered on this pos
 	//sprite has priority over static
@@ -210,20 +271,17 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 	always @(posedge clock or posedge reset) begin
 		if(reset) spritebuf =0;
 		else begin
-			if(hsync) begin
-				if(sprite_en) begin
-					spritebuf = {selSprite[29:28], spriteout};
-				end
-				else if(static_en) begin
-					spritebuf = {selStatic[21:20], staticout};
-				end
-				else begin
-					spritebuf = 0;
-				end
+			if(sprite_en) begin
+				spritebuf = {/*sel kleur*/{2{1'b0}}, spriteout};
+			end
+			else if(static_en) begin
+				spritebuf = {/*sel kleur*/{2{1'b0}}, staticout};
+			end
+			else begin
+				spritebuf = 0;
 			end
 		end
 	end 
-	
 	
 	//colortable
 	//the most sig bit of the selColor address selects if the map or the spirte colortable is used
@@ -235,7 +293,7 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 	
 	//synthesise colors of map and colors of sprites
 	reg [23:0] colors;
-	always @(map_enable) begin
+	always @(map_enable or scolors) begin
 		if(map_enable) colors = {mapcolors[11:8], {4{1'b0}}, mapcolors[7:4], {4{1'b0}}, mapcolors[3:0], {4{1'b0}}};
 		else colors = scolors;
 	end
@@ -244,7 +302,7 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 		always @(posedge clock) begin
 			if (visible) begin
 				//what color should the current pixel be?
-				if(display_x < 128 or display >1152) begin
+				if(display_x < 128 || display_x >1152) begin
 					//Standard values
 					red = {10{1'b0}};
 					green = {10{1'b0}};
@@ -253,7 +311,7 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 				else begin
 					red = {colors[23:16], {2{1'b0}}};
 					green = {colors[15:8], {2{1'b0}}};
-					lue = {colors[7:0], {2{1'b0}}};
+					blue = {colors[7:0], {2{1'b0}}};
 				end
 			end
 			else begin

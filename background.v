@@ -4,7 +4,7 @@
 // MODULE: altsyncram 
 
 // ============================================================
-// File Name: ram_mov_sprite1.v
+// File Name: background.v
 // Megafunction Name(s):
 // 			altsyncram
 //
@@ -36,7 +36,7 @@
 // synopsys translate_off
 `timescale 1 ps / 1 ps
 // synopsys translate_on
-module ram_mov_sprite1 (
+module background (
 	address,
 	clock,
 	data,
@@ -45,12 +45,12 @@ module ram_mov_sprite1 (
 
 	input	[15:0]  address;
 	input	  clock;
-	input	[1:0]  data;
+	input	[11:0]  data;
 	input	  wren;
-	output	[1:0]  q;
+	output	[11:0]  q;
 
-	wire [1:0] sub_wire0;
-	wire [1:0] q = sub_wire0[1:0];
+	wire [11:0] sub_wire0;
+	wire [11:0] q = sub_wire0[11:0];
 
 	altsyncram	altsyncram_component (
 				.wren_a (wren),
@@ -79,7 +79,7 @@ module ram_mov_sprite1 (
 	defparam
 		altsyncram_component.clock_enable_input_a = "BYPASS",
 		altsyncram_component.clock_enable_output_a = "BYPASS",
-		altsyncram_component.init_file = "sprite1.mif",
+		altsyncram_component.init_file = "background.mif",
 		altsyncram_component.intended_device_family = "Cyclone II",
 		altsyncram_component.lpm_hint = "ENABLE_RUNTIME_MOD=NO",
 		altsyncram_component.lpm_type = "altsyncram",
@@ -89,7 +89,7 @@ module ram_mov_sprite1 (
 		altsyncram_component.outdata_reg_a = "UNREGISTERED",
 		altsyncram_component.power_up_uninitialized = "FALSE",
 		altsyncram_component.widthad_a = 16,
-		altsyncram_component.width_a = 2,
+		altsyncram_component.width_a = 12,
 		altsyncram_component.width_byteena_a = 1;
 
 
@@ -117,7 +117,7 @@ endmodule
 // Retrieval info: PRIVATE: JTAG_ENABLED NUMERIC "0"
 // Retrieval info: PRIVATE: JTAG_ID STRING "NONE"
 // Retrieval info: PRIVATE: MAXIMUM_DEPTH NUMERIC "0"
-// Retrieval info: PRIVATE: MIFfilename STRING "sprite1.mif"
+// Retrieval info: PRIVATE: MIFfilename STRING "background.mif"
 // Retrieval info: PRIVATE: NUMWORDS_A NUMERIC "65536"
 // Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "0"
 // Retrieval info: PRIVATE: READ_DURING_WRITE_MODE_PORT_A NUMERIC "3"
@@ -129,11 +129,11 @@ endmodule
 // Retrieval info: PRIVATE: UseDQRAM NUMERIC "1"
 // Retrieval info: PRIVATE: WRCONTROL_ACLR_A NUMERIC "0"
 // Retrieval info: PRIVATE: WidthAddr NUMERIC "16"
-// Retrieval info: PRIVATE: WidthData NUMERIC "2"
+// Retrieval info: PRIVATE: WidthData NUMERIC "12"
 // Retrieval info: PRIVATE: rden NUMERIC "0"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_INPUT_A STRING "BYPASS"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_OUTPUT_A STRING "BYPASS"
-// Retrieval info: CONSTANT: INIT_FILE STRING "sprite1.mif"
+// Retrieval info: CONSTANT: INIT_FILE STRING "background.mif"
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone II"
 // Retrieval info: CONSTANT: LPM_HINT STRING "ENABLE_RUNTIME_MOD=NO"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "altsyncram"
@@ -143,25 +143,25 @@ endmodule
 // Retrieval info: CONSTANT: OUTDATA_REG_A STRING "UNREGISTERED"
 // Retrieval info: CONSTANT: POWER_UP_UNINITIALIZED STRING "FALSE"
 // Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "16"
-// Retrieval info: CONSTANT: WIDTH_A NUMERIC "2"
+// Retrieval info: CONSTANT: WIDTH_A NUMERIC "12"
 // Retrieval info: CONSTANT: WIDTH_BYTEENA_A NUMERIC "1"
 // Retrieval info: USED_PORT: address 0 0 16 0 INPUT NODEFVAL address[15..0]
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT NODEFVAL clock
-// Retrieval info: USED_PORT: data 0 0 2 0 INPUT NODEFVAL data[1..0]
-// Retrieval info: USED_PORT: q 0 0 2 0 OUTPUT NODEFVAL q[1..0]
+// Retrieval info: USED_PORT: data 0 0 12 0 INPUT NODEFVAL data[11..0]
+// Retrieval info: USED_PORT: q 0 0 12 0 OUTPUT NODEFVAL q[11..0]
 // Retrieval info: USED_PORT: wren 0 0 0 0 INPUT NODEFVAL wren
 // Retrieval info: CONNECT: @address_a 0 0 16 0 address 0 0 16 0
-// Retrieval info: CONNECT: q 0 0 2 0 @q_a 0 0 2 0
+// Retrieval info: CONNECT: q 0 0 12 0 @q_a 0 0 12 0
 // Retrieval info: CONNECT: @clock0 0 0 0 0 clock 0 0 0 0
-// Retrieval info: CONNECT: @data_a 0 0 2 0 data 0 0 2 0
+// Retrieval info: CONNECT: @data_a 0 0 12 0 data 0 0 12 0
 // Retrieval info: CONNECT: @wren_a 0 0 0 0 wren 0 0 0 0
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
-// Retrieval info: GEN_FILE: TYPE_NORMAL ram_mov_sprite1.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL ram_mov_sprite1.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL ram_mov_sprite1.cmp FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL ram_mov_sprite1.bsf TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL ram_mov_sprite1_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL ram_mov_sprite1_bb.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL ram_mov_sprite1_waveforms.html TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL ram_mov_sprite1_wave*.jpg FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL background.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL background.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL background.cmp FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL background.bsf TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL background_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL background_bb.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL background_waveforms.html TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL background_wave*.jpg FALSE
 // Retrieval info: LIB_FILE: altera_mf

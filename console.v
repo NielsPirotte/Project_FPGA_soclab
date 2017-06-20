@@ -35,32 +35,31 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	
 	wire [9:0] red, green, blue;
 	
-	wire update;
-	wire [] sprites;
-	wire [131:0] statics;
+	wire [57:0] sprites;
+	wire [0:0] statics;
 	
 	wire [11:0] offset_x, offset_y;
+	assign offset_x = 0; //test
+	assign offset_y = 0; //test
+
 	
 	ppu picture_proc_unit(.clock(clock), .reset(reset), .red(red), .green(green), .blue(blue), .hsync(hsync), .vsync(vsync), 
-						  .update(update), .sprites(sprites), .statics(statics), .offset_x(offset_x), .offset_y(offset_y));
+						  .sprites(sprites), .statics(statics), .offset_x(offset_x), .offset_y(offset_y));
 
 	assign oVGA_R = red;
 	assign oVGA_G = green;
 	assign oVGA_B = blue;
 	
 	//the game statemachine
-	wire [] controller1;
-	wire [] controller2;
-	statemachine sm(clock, reset, controller1, controller2, sprites, statics, offset_x, offset_y, update);
+	wire [0:0] controller1;
+	wire [0:0] controller2;
+	statemachine sm(.clock(clock), .reset(reset), .controller1(controller1), .controller2(controller2), .sprites(sprites), .statics(statics));
 	
 	//input
-	input_controls controls(clock, reset, controller1, controller2);
+	//input_controls controls(clock, reset, controller1, controller2);
 	
 	//rom
 	//not yet implemented
-	
-	//databus
-	//is represented by the sprites and statics bus
 	
 	//clock signal with pll - 108Mhz
 	wire clock;
