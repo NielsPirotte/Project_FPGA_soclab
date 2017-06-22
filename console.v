@@ -1,7 +1,7 @@
 //A console for playing a fighting game
 //interface: leds for feedback, reset button, VGA interface, switches for settings 
 
-module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVGA_CLOCK, oVGA_SYNC_N, oVGA_BLANK_N);
+module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVGA_CLOCK, oVGA_SYNC_N, oVGA_BLANK_N, oLEDR);
 
 //input and output values
 	//clock, switches and buttons
@@ -15,8 +15,13 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	output oVGA_HS, oVGA_VS;
 	output oVGA_SYNC_N; 
 	output oVGA_BLANK_N;
+	output [17:0] oLEDR;
 	
-//define interfaces
+	//testing
+	//wire test;
+	//assign oLEDR[17] = test;
+	
+	//define interfaces
 	//reset button
 	wire reset;
 	assign reset = ~iKEY[0];
@@ -31,32 +36,28 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	assign oVGA_BLANK_N = hsync & vsync;
 	
 	//connection between statemachine and ppu
-	
-	
+
 	wire [9:0] red, green, blue;
 	
-	wire [57:0] sprites;
+	wire [63:0] sprites;
+	wire [63:0] testsprites;
+	assign testsprites = 0;
 	wire [0:0] statics;
 	
-	wire [11:0] offset_x, offset_y;
-	assign offset_x = 0; //test
-	assign offset_y = 0; //test
-
-	
 	ppu picture_proc_unit(.clock(clock), .reset(reset), .red(red), .green(green), .blue(blue), .hsync(hsync), .vsync(vsync), 
-						  .sprites(sprites), .statics(statics), .offset_x(offset_x), .offset_y(offset_y));
+						  .sprites(testsprites), .statics(statics), .test(iSW[1:0]));
 
 	assign oVGA_R = red;
 	assign oVGA_G = green;
 	assign oVGA_B = blue;
 	
 	//the game statemachine
-	wire [0:0] controller1;
-	wire [0:0] controller2;
+	wire [9:0] controller1;
+	wire [9:0] controller2;
 	statemachine sm(.clock(clock), .reset(reset), .controller1(controller1), .controller2(controller2), .sprites(sprites), .statics(statics));
 	
 	//input
-	//input_controls controls(clock, reset, controller1, controller2);
+	ps2_connect inputcontroller(.clock(clock), .reset(reset), .GPIO_0(GPIO_0), .c1(controller1), .c2(controller2));
 	
 	//rom
 	//not yet implemented

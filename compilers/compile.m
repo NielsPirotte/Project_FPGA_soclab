@@ -1,15 +1,14 @@
-A = imread('test.bmp');
+A = imread('background.jpg'); %256 * 256
 [n, m, c] = size(A);
 
-threshold = 100;
+%threshold = 100;
 
-fileID = fopen('test.mif','wt');
+fileID = fopen('background.mif','wt');
 
-formatSpec = 'X is %4.2f meters or %8.3f mm\n';
 %header
 fprintf(fileID, '\n-- Clearbox generated Memory Initialization File (.mif)\n\n');
-fprintf(fileID, 'WIDTH=2;\n');
-fprintf(fileID, 'DEPTH=256;\n\n');
+fprintf(fileID, 'WIDTH=12;\n');
+fprintf(fileID, 'DEPTH=65536;\n\n');
 fprintf(fileID, 'ADDRESS_RADIX=HEX;DATA_RADIX = HEX;\n\n');
 fprintf(fileID, 'CONTENT BEGIN\n');
 

@@ -18,40 +18,30 @@
 
 
 
-module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, statics, offset_x, offset_y); 
+module ppu(clock, reset, hsync, vsync, red, green, blue, sprites, statics, test); 
 
 //input and output values
 	input clock, reset;
-	input update;		//When update becomes true, the sprite and static table are updated by the cpu
+	//input update;		//When update becomes true, the sprite and static table are updated by the cpu
 	
 	//Determined by the State Machine (CPU)
 	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-	input [57:0] sprites;		//updated sprite table
+	input [63:0] sprites;		//updated sprite table
 	input [0:0] statics;		//updated static table
 	
-	//the current x-position top corner of the viewport
-	input [11:0] offset_x;
-	//the current y-position top corner of the viewport
-	input [11:0] offset_y;
 	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	
 	output vsync, hsync;
 	output reg [9:0] red, green, blue;
 	
-	//define offset of the map
-	reg [11:0] offset_x_r;
-	reg [11:0] offset_y_r;
+	//testing
+	input [1:0] test;
 
 	//calculate relative positions
 	//the current x-position of pixel to write (screencoord)
 		wire [11:0] display_x;
 	//the current y-position of the pixel to write (screencoord)
 		wire [10:0] display_y;
-		
-	//the absolute x-position of the write
-		wire [11:0] abs_x;
-	//the absolute y-position of the write
-		wire [11:0] abs_y;
 		
 		//current tile collumn-position in the map absolute
 		wire [2:0] collumn;
@@ -63,12 +53,12 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 		//current relative y-position in a certain tile
 		wire [7:0] rel_y;
 		
-		assign abs_x = offset_x_r + display_x;
-		assign abs_y = offset_y_r + display_y;
-		assign collumn = abs_x[10:4];
-		assign row = abs_y[10:8];
-		assign rel_x = abs_x[7:0];
-		assign rel_y = abs_y[7:0];
+		//devide in blocks
+		assign rel_x = display_x[7:0];
+		assign rel_y = display_y[7:0];
+		
+		assign collumn = display_x[10:4];
+		assign row = display_y[10:8];
 		
 		//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		//DATABUS
@@ -79,15 +69,17 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 		// xpos, ypos in world each 11 bits
 		// char
 		// attribute -> color
-		reg [27:0] sprite1, sprite2;
-		wire [11:0] display_x_sp1, display_x_sp2;
-		wire [10:0] display_y_sp1, display_y_sp2;
+		reg [31:0] sprite1, sprite2;
+		wire [11:0] display_x_sp1 /* synthesis keep */;
+		wire [11:0] display_x_sp2 /* synthesis keep */;
+		wire [10:0] display_y_sp1 /* synthesis keep */;
+		wire [10:0] display_y_sp2 /* synthesis keep */;
 		
-		assign display_x_sp1 = {sprite1[27:19],{2{1'b0}}}+{16{1'b1}};
-		assign display_x_sp2 = {sprite2[27:19],{2{1'b0}}}+{16{1'b1}};
+		assign display_x_sp1 = {sprite1[31:23],{2{1'b0}}}+ 640;
+		assign display_x_sp2 = {sprite2[31:23],{2{1'b0}}}+ 640;
 		
-		assign display_y_sp1 = {1'b0,{11{1'b1}}-{sprite1[18:10],{2{1'b0}}}};
-		assign display_y_sp2 = {1'b0,{11{1'b1}}-{sprite2[18:10],{2{1'b0}}}};
+		assign display_y_sp1 = 900-{sprite1[22:14],{2{1'b0}}};
+		assign display_y_sp2 = 900-{sprite2[22:14],{2{1'b0}}};
 		
 		
 		
@@ -100,10 +92,7 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 		
 		//schrijft nieuwe registers
 		always @(posedge clock or posedge reset) begin
-			if(reset) begin
-				offset_x_r = 0;
-				offset_y_r = 0;
-				
+			if(reset) begin	
 				sprite1 = 0;
 				sprite2 = 0;
 				
@@ -115,14 +104,11 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 				static6 = 0;
 			end
 			else begin
-				if(update && hsync) begin
-					offset_x_r = offset_x;
-					offset_y_r = offset_y;
-					
-					sprite1 = sprites[57:32];
+				if(hsync) begin //&&update				
+					sprite1 = sprites[63:32];
 					sprite2 = sprites[31:0];
 				end
-				if(update && vsync) begin
+				if(vsync) begin //&&update
 					static1 = statics[0:0];
 					static2 = statics[0:0];
 					static3 = statics[0:0];
@@ -138,77 +124,76 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 		//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		
 		//select the correct sprite or  ifo the current position
-		reg [4:0] selSprite;
-		reg [7:0] relx_s1, relx_s2;
+		reg [11:0] relx_s1, relx_s2;
 		reg negx_s1, negx_s2;
-		reg [7:0] rely_s1, rely_s2;
+		reg [10:0] rely_s1, rely_s2;
 		reg negy_s1, negy_s2;
-		always @(display_x_sp1 or abs_x) begin
-			if(display_x_sp1<abs_x) begin
-				relx_s1 = abs_x-display_x_sp1;
+		always @(display_x_sp1 or display_x) begin
+			if(display_x_sp1<display_x) begin
+				relx_s1 = display_x-display_x_sp1;
 				negx_s1 = 0;	
 			end
 			else begin
-				relx_s1 = display_x_sp1 - abs_x;
+				relx_s1 = display_x_sp1 - display_x;
 				negx_s1 = 1;
 			end
 		end
 		
-		always @(display_x_sp2 or abs_x) begin
-			if(display_x_sp2<abs_x) begin
-				relx_s2 = abs_x-display_x_sp2;
+		always @(display_x_sp2 or display_x) begin
+			if(display_x_sp2<display_x) begin
+				relx_s2 = display_x-display_x_sp2;
 				negx_s2 = 0;
 			end
 			else begin
-				relx_s2 = display_x_sp2 - abs_x;
+				relx_s2 = display_x_sp2 - display_x;
 				negx_s2 = 1;
 			end
 		end
 		
-		always @(display_y_sp1 or abs_y) begin
-			if(display_y_sp1<abs_y) begin
-				rely_s1 = abs_y-display_y_sp1;
+		always @(display_y_sp1 or display_y) begin
+			if(display_y_sp1>display_y) begin
+				rely_s1 = display_y_sp1-display_y;
 				negy_s1 = 0;
 			end
 			else begin
+				rely_s1 = {11{1'b1}};
 				negy_s1 = 1;
 			end
 		end
 		
-		always @(display_y_sp2 or abs_y) begin
-			if(display_y_sp2<abs_y) begin
-				rely_s2 = abs_y-display_y_sp2;
+		always @(display_y_sp2 or display_y) begin
+			if(display_y_sp2>display_y) begin
+				rely_s2 = display_y_sp2-display_y;
 				negy_s2 = 0;
 			end
 			else begin
+				rely_s2 = {11{1'b1}};
 				negy_s2 = 1;
 			end
 		end
 		
-		reg negx, negy;
-		reg relxs, relys;
-		reg sprite_en;
-		always @(sprite1 or sprite2 or abs_x or abs_y) begin
-			sprite_en = 0;
+		//select the sprite to display
+		reg [7:0] selSprite;
+		reg negx;
+		reg [6:0] relxs;
+		reg [7:0] relys;
+		always @(sprite1 or sprite2 or relx_s1 or rely_s1 or negy_s1 or negx_s1 or relx_s2 or rely_s2 or negy_s2 or negx_s2) begin
 			selSprite = 0;
 			negx = 0;
-			negy = 0;
 			relxs = 0;
 			relys = 0;
-			
-			if((relx_s1 < 127) && (rely_s1<127) && !negy_s1) begin 
+			if((relx_s1 < 64) && (rely_s1<210) && !negy_s1) begin 
 				selSprite = sprite1[7:0];
 				negx = negx_s1;
-				relxs = relx_s1;
-				relys = rely_s1;
+				relxs = relx_s1[6:0];
+				relys = rely_s1[7:0];
 			end
-			if((relx_s2 < 127) && (rely_s2<127) && !negy_s2) begin
+			if((relx_s2 < 64) && (rely_s2<210) && !negy_s2) begin
 				selSprite = sprite2[7:0];
 				negx = negx_s2;
-				relxs = relx_s2;
-				relys = rely_s2;
+				relxs = relx_s2[6:0];
+				relys = rely_s2[7:0];
 			end
-			if(selSprite != 0) sprite_en = 1;
 		end
 		
 		//select the correct static i.f.o. the current position
@@ -217,7 +202,7 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 		assign selStatic = 0;
 		
 //		reg static_en;
-//			test
+//		test
 		wire static_en;
 		assign static_en = 0;
 //		always @(static1 or static2 or static3 or static4 or static5 or static6 or collumn or row) begin
@@ -250,7 +235,7 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 	//background table:
 	//1024x1024 pixels
 	//each pixel has a color value of 12 bit (4 red, 4 green, 4 blue)
-	map map(.clock(clock), .x(display_x-10), .y(display_y), .out(mapcolors));
+	map map(.clock(clock), .x(display_x), .y(display_y), .out(mapcolors));
 	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	
 	//attribute table for static sprites
@@ -265,39 +250,29 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 	
 	//attribute table -> written each jump of hor line - row
 	//select = #sprite number
-	wire [1:0] spriteout;
-	mov_sprite_mem msm(.clock(clock), .char(selSprite[3:0]), .x(rel_xs), .y(rel_ys), .nx(neg_y), .out(spriteout), .mirror(!selSprite[4]));
+	wire [3:0] spriteout;
+	//mov_sprite_mem msm(.clock(clock), .selanim(selSprite[6:3]), .selframe(selSprite[2:1]), .x(relxs), .y(relys), 
+	//				   .nx(negx), .out(spriteout), .mirror(!selSprite[7]));
+	mov_sprite_mem msm(.clock(clock), .selanim(4'b0101), .selframe(test), .x(relxs), .y(relys), 
+					   .nx(negx), .out(spriteout), .mirror(1'b0));
 	
 	//determine what needs to be rendered on this pos
 	//sprite has priority over static
-	reg [3:0] spritebuf;
-	always @(posedge clock or posedge reset) begin
-		if(reset) spritebuf =0;
-		else begin
-			if(sprite_en) begin
-				spritebuf = {/*sel kleur*/{2{1'b0}}, spriteout};
-			end
-			else if(static_en) begin
-				spritebuf = {/*sel kleur*/{2{1'b0}}, staticout};
-			end
-			else begin
-				spritebuf = 0;
-			end
-		end
-	end 
+	wire [4:0] spritebuf;
+	assign spritebuf = {1'b0, spriteout};
 	
 	//colortable
 	//the most sig bit of the selColor address selects if the map or the spirte colortable is used
 	wire map_enable;
-	assign map_enable = ~(sprite_en | static_en);
+	assign map_enable = (spritebuf == 0)?1:0;
 	//4 bits for selecting the colors // first 2 for pallete select // last 2 for pixeldata (dependent on x and y)
 	wire [23:0] scolors;
 	ram_colortable ct(.address(spritebuf), .clock(clock), .data({24{1'b0}}), .wren(1'b0), .q(scolors));
 	
 	//synthesise colors of map and colors of sprites
 	reg [23:0] colors;
-	always @(map_enable or scolors) begin
-		if(map_enable) colors = {mapcolors[11:8], {4{1'b0}}, mapcolors[7:4], {4{1'b0}}, mapcolors[3:0], {4{1'b0}}};
+	always @(map_enable or scolors or mapcolors) begin
+		if(map_enable) colors = 0;//{mapcolors[11:8], {4{1'b0}}, mapcolors[7:4], {4{1'b0}}, mapcolors[3:0], {4{1'b0}}};
 		else colors = scolors;
 	end
 
@@ -305,7 +280,8 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, update, sprites, static
 		always @(posedge clock) begin
 			if (visible) begin
 				//what color should the current pixel be?
-				if(display_x < 128 || display_x >1152) begin
+				//if(display_x < 128 || display_x >1152) begin
+				if(display_x < 32 || display_x >1248) begin
 					//Standard values
 					red = {10{1'b0}};
 					green = {10{1'b0}};
