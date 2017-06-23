@@ -1,13 +1,13 @@
 ffffff		:	0
 191919		:	d09060
-4c4c4c		:	f0b000
+4c4c4c		:	f0b000 -->2 naar zwart(6)
 b2b2b2		:	f0e068
 007f00		:	b86848
 7f0000		:	804030
 ff00ff		:	101010
 cccccc		:	f0e0a0
-00007f		:	d84000	--> donker rood = 900c3f (13)
-007f7f		:	f84800	--> rood = c70039 (14)
+00007f		:	d84000	-->9 donker rood = 900c3f (13)
+007f7f		:	f84800	-->10 rood = c70039 (14)
 0000ff		:	601000
 7f7f7f		:	f0c080
 00ff00		:	882000

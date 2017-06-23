@@ -17,6 +17,7 @@ wire [12:0] address_single; 	//1 frame: 50x105 => 13 bit address
 //4 frames: 50x105 each => 15 bit address
 //4 frames: 64x105 each => 15 bit address
 wire [14:0] address_frame;
+wire [14:0] address_normal;
 
 //determine the type of attack used
 reg [1:0] type_attack; 
@@ -41,7 +42,9 @@ end
 
 //for picturing on coordinates
 reg [6:0] picx;
+reg no_out;
 always @(x or nx or mirror or selanim or type_attack) begin
+	no_out = 0;
 	if(type_attack == 2) begin
 		if(nx ^ mirror) begin
 			picx = 64 - x;
@@ -51,20 +54,25 @@ always @(x or nx or mirror or selanim or type_attack) begin
 		end
 	end
 	else begin //0 or 1
-			if(x > 50) picx = 0;
+			if(x > 49) begin 
+				picx = 0;
+				no_out = 1;
+			end
 			else begin
 				if(nx ^ mirror) begin
-					picx = 50 - x;
+					picx = 49 - x;
 				end
 				else begin
-					picx = x + 50;
+					picx = x + 49;
 				end
 			end
 	end
 end
 
+//calculate correct y, because is reversed
+wire [7:0] picy;
+assign picy = 210 - y;
 
-//y is altijd 7 bit
 //x is bij single 6 bit en 8 bit bij enkel
 reg [7:0] framex;
 always @(selframe or type_attack or picx) begin
@@ -89,22 +97,24 @@ always @(selframe or type_attack or picx) begin
 	endcase
 end
 
-wire [7:0] picy;
-assign picy = 105 - y;
-assign address_single = {picy[7:1], picx[6:1]};
+assign address_single = picx[6:1] + 50*picy[7:1];//{picy[7:1], picx[6:1]};
+assign address_normal =  framex + 200*picy[7:1];
 assign address_frame = {picy[7:1], framex};
+
+
 
 wire [3:0] idle_out, walking_out, hit_out, jump_out, mid_punch_out, high_kick_out, 
 		 low_punch_out, block_high_out, block_low_out, crouch_out;
-
+		 
+//Sprite1
 	//pattern for idle state
-ram_idle_sprite idle(.clock(clock), .address(address_frame), .wren(1'b0), .data({4{1'b0}}), .q(idle_out));
+ram_idle_sprite idle(.clock(clock), .address(address_normal), .wren(1'b0), .data({4{1'b0}}), .q(idle_out));
 	//pattern for walking
-ram_walking_sprite walking(.clock(clock), .address(address_frame), .wren(1'b0), .data({4{1'b0}}), .q(walking_out));
+ram_walking_sprite walking(.clock(clock), .address(address_normal), .wren(1'b0), .data({4{1'b0}}), .q(walking_out));
 	//pattern for hit
-ram_hit_sprite hit(.clock(clock), .address(address_frame), .wren(1'b0), .data({4{1'b0}}), .q(hit_out));
+ram_hit_sprite hit(.clock(clock), .address(address_normal), .wren(1'b0), .data({4{1'b0}}), .q(hit_out));
 	//pattern for jump
-ram_jump_sprite jump(.clock(clock), .address(address_frame), .wren(1'b0), .data({4{1'b0}}), .q(jump_out));
+ram_jump_sprite jump(.clock(clock), .address(address_normal), .wren(1'b0), .data({4{1'b0}}), .q(jump_out));
 	//pattern for mid punch
 ram_mid_punch_sprite mid_punch(.clock(clock), .address(address_frame), .wren(1'b0), .data({4{1'b0}}), .q(mid_punch_out));
 	//pattern for high kick
@@ -120,20 +130,23 @@ ram_crouch_sprite crouch(.clock(clock), .address(address_single), .wren(1'b0), .
 
 //select the correct sprite
 always @(selanim or idle_out or walking_out or hit_out or jump_out or mid_punch_out or high_kick_out or
-		 low_punch_out or block_high_out or block_low_out or crouch_out) begin
-	case(selanim)
-		0: out = idle_out;
-		1: out = walking_out;
-		2: out = hit_out;
-		3: out = jump_out;
-		4: out = low_punch_out;
-		5: out = mid_punch_out;
-		6: out = high_kick_out;
-		7: out = crouch_out;
-		8: out = block_low_out;
-		9: out = block_high_out;
-		default: out = idle_out;
-	endcase 
+		 low_punch_out or block_high_out or block_low_out or crouch_out or no_out) begin
+	if(no_out) out = 0;
+	else begin
+		case(selanim)
+			0: out = idle_out;
+			1: out = walking_out;
+			2: out = hit_out;
+			3: out = jump_out;
+			4: out = low_punch_out;
+			5: out = mid_punch_out;
+			6: out = high_kick_out;
+			7: out = crouch_out;
+			8: out = block_low_out;
+			9: out = block_high_out;
+			default: out = idle_out;
+		endcase
+	end
 end
 
 endmodule 

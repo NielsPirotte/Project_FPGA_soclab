@@ -1,13 +1,14 @@
 //A console for playing a fighting game
 //interface: leds for feedback, reset button, VGA interface, switches for settings 
 
-module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVGA_CLOCK, oVGA_SYNC_N, oVGA_BLANK_N, oLEDR);
+module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVGA_CLOCK, oVGA_SYNC_N, oVGA_BLANK_N, oLEDR, GPIO_0);
 
 //input and output values
 	//clock, switches and buttons
 	input iCLK_50;
 	input [0:0] iKEY;
 	input [17:0] iSW;
+	input [4:0] GPIO_0;
 	
 	//VGA
 	output  oVGA_CLOCK; 
@@ -19,7 +20,7 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	
 	//testing
 	//wire test;
-	//assign oLEDR[17] = test;
+	assign oLEDR[9:0] = controller1;
 	
 	//define interfaces
 	//reset button
@@ -40,12 +41,10 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	wire [9:0] red, green, blue;
 	
 	wire [63:0] sprites;
-	wire [63:0] testsprites;
-	assign testsprites = 0;
 	wire [0:0] statics;
 	
 	ppu picture_proc_unit(.clock(clock), .reset(reset), .red(red), .green(green), .blue(blue), .hsync(hsync), .vsync(vsync), 
-						  .sprites(testsprites), .statics(statics), .test(iSW[1:0]));
+						  .sprites(sprites), .statics(statics), .test(iSW[1:0]));
 
 	assign oVGA_R = red;
 	assign oVGA_G = green;
@@ -54,7 +53,8 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	//the game statemachine
 	wire [9:0] controller1;
 	wire [9:0] controller2;
-	statemachine sm(.clock(clock), .reset(reset), .controller1(controller1), .controller2(controller2), .sprites(sprites), .statics(statics));
+	statemachine sm(.clock(clock), .reset(reset), .controller1(controller1), .controller2(controller2), .sprites(sprites), .statics(statics),
+					.test(oLEDR[17]));
 	
 	//input
 	ps2_connect inputcontroller(.clock(clock), .reset(reset), .GPIO_0(GPIO_0), .c1(controller1), .c2(controller2));

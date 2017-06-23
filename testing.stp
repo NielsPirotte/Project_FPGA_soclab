@@ -2,413 +2,146 @@
   <display_tree gui_logging_enabled="0">
     <display_branch instance="auto_signaltap_0" log="USE_GLOBAL_TEMP" signal_set="USE_GLOBAL_TEMP" trigger="USE_GLOBAL_TEMP"/>
   </display_tree>
-  <global_info>
-    <single attribute="active instance" value="0"/>
-    <single attribute="lock mode" value="36110"/>
-    <multi attribute="window position" size="9" value="1184,546,398,124,0,50,124,0,2"/>
-    <multi attribute="column width" size="23" value="34,34,260,74,68,70,88,88,98,98,88,88,110,101,101,101,101,101,101,101,101,107,78"/>
-  </global_info>
-  <instance entity_name="sld_signaltap" is_auto_node="yes" name="auto_signaltap_0" source_file="sld_signaltap.vhd">
+  <instance entity_name="sld_signaltap" is_auto_node="yes" is_expanded="true" name="auto_signaltap_0" source_file="sld_signaltap.vhd">
     <node_ip_info instance_id="0" mfg_id="110" node_id="0" version="6"/>
     <position_info>
       <single attribute="active tab" value="0"/>
-      <single attribute="data vertical scroll position" value="4"/>
-      <single attribute="data horizontal scroll position" value="0"/>
-      <single attribute="zoom level numerator" value="16"/>
-      <single attribute="zoom level denominator" value="1"/>
-      <single attribute="zoom offset numerator" value="130945"/>
-      <single attribute="zoom offset denominator" value="16"/>
-      <single attribute="setup vertical scroll position" value="0"/>
+      <single attribute="data horizontal scroll position" value="6"/>
+      <single attribute="data vertical scroll position" value="0"/>
       <single attribute="setup horizontal scroll position" value="0"/>
+      <single attribute="setup vertical scroll position" value="0"/>
+      <single attribute="zoom level denominator" value="1"/>
+      <single attribute="zoom level numerator" value="16"/>
+      <single attribute="zoom offset denominator" value="1"/>
+      <single attribute="zoom offset numerator" value="8184"/>
     </position_info>
-    <signal_set global_temp="1" name="signal_set: 2017/06/21 16:33:22  #0">
-      <clock name="ppu:picture_proc_unit|clock" polarity="posedge" tap_mode="classic"/>
+    <signal_set global_temp="1" name="signal_set: 2017/06/23 10:36:46  #0">
+      <clock name="statemachine:sm|clock" polarity="posedge" tap_mode="classic"/>
       <config ram_type="M4K" reserved_data_nodes="0" reserved_storage_qualifier_nodes="0" reserved_trigger_nodes="0" sample_depth="128" trigger_in_enable="no" trigger_out_enable="no"/>
       <top_entity/>
       <signal_vec>
         <trigger_input_vec>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[11]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[11]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[11]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1buffer[0]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[1]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[2]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[3]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[4]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[5]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[6]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[7]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[8]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[9]" tap_mode="classic" type="register"/>
         </trigger_input_vec>
         <data_input_vec>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[11]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[11]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[11]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1buffer[0]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[1]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[2]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[3]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[4]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[5]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[6]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[7]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[8]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[9]" tap_mode="classic" type="register"/>
         </data_input_vec>
         <storage_qualifier_input_vec>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[11]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_x_sp1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|display_y_sp1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[11]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|relx_s1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|rely_s1[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[11]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_col[9]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[0]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[10]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[1]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[2]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[3]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[4]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[5]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[6]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[7]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[8]" tap_mode="classic" type="combinatorial"/>
-          <wire name="ppu:picture_proc_unit|vga_controller:controller|display_row[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="statemachine:sm|controller1buffer[0]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[1]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[2]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[3]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[4]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[5]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[6]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[7]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[8]" tap_mode="classic" type="register"/>
+          <wire name="statemachine:sm|controller1buffer[9]" tap_mode="classic" type="register"/>
         </storage_qualifier_input_vec>
       </signal_vec>
       <presentation>
         <data_view>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|vga_controller:controller|display_col" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[10]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[11]"/>
+          <bus is_signal_inverted="no" link="all" name="statemachine:sm|controller1buffer" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[0]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[1]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[2]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[3]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[4]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[5]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[6]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[7]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[8]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[9]"/>
           </bus>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|vga_controller:controller|display_row" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[10]"/>
-          </bus>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|display_x_sp1" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[10]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[11]"/>
-          </bus>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|display_y_sp1" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[10]"/>
-          </bus>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|relx_s1" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[10]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[11]"/>
-          </bus>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|rely_s1" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[10]"/>
+          <bus is_signal_inverted="no" link="all" name="statemachine:sm|controller1" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[0]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[1]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[2]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[3]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[4]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[5]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[6]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[7]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[8]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[9]"/>
           </bus>
         </data_view>
         <setup_view>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|vga_controller:controller|display_col" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[10]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_col[11]"/>
+          <bus is_signal_inverted="no" link="all" name="statemachine:sm|controller1buffer" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[0]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[1]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[2]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[3]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[4]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[5]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[6]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[7]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[8]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1buffer[9]"/>
           </bus>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|vga_controller:controller|display_row" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|vga_controller:controller|display_row[10]"/>
-          </bus>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|display_x_sp1" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[10]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_x_sp1[11]"/>
-          </bus>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|display_y_sp1" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|display_y_sp1[10]"/>
-          </bus>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|relx_s1" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[10]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|relx_s1[11]"/>
-          </bus>
-          <bus is_signal_inverted="no" link="all" name="ppu:picture_proc_unit|rely_s1" order="lsb_to_msb" radix="unsigned_dec" state="collapse" type="combinatorial">
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[0]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[1]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[2]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[3]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[4]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[5]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[6]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[7]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[8]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[9]"/>
-            <net is_signal_inverted="no" name="ppu:picture_proc_unit|rely_s1[10]"/>
+          <bus is_signal_inverted="no" link="all" name="statemachine:sm|controller1" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[0]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[1]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[2]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[3]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[4]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[5]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[6]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[7]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[8]"/>
+            <net is_signal_inverted="no" name="statemachine:sm|controller1[9]"/>
           </bus>
         </setup_view>
       </presentation>
-      <trigger CRC="E1E6D4A1" attribute_mem_mode="false" gap_record="true" global_temp="1" name="trigger: 2017/06/21 16:33:22  #1" position="pre" power_up_trigger_mode="false" record_data_gap="true" segment_size="1" storage_mode="off" storage_qualifier_disabled="no" storage_qualifier_port_is_pin="true" storage_qualifier_port_name="auto_stp_external_storage_qualifier" storage_qualifier_port_tap_mode="classic" trigger_in="dont_care" trigger_out="active high" trigger_type="circular">
+      <trigger CRC="7B7AF7E7" attribute_mem_mode="false" gap_record="true" global_temp="1" name="trigger: 2017/06/23 10:36:46  #1" position="pre" power_up_trigger_mode="false" record_data_gap="true" segment_size="1" storage_mode="off" storage_qualifier_disabled="no" storage_qualifier_port_is_pin="false" storage_qualifier_port_name="auto_stp_external_storage_qualifier" storage_qualifier_port_tap_mode="classic" trigger_in="dont_care" trigger_out="active high" trigger_type="circular">
         <power_up_trigger position="pre" storage_qualifier_disabled="no" trigger_in="dont_care" trigger_out="active high"/>
         <events use_custom_flow_control="no">
           <level enabled="yes" name="condition1" type="basic">
@@ -418,8 +151,8 @@
           </level>
         </events>
         <storage_qualifier_events>
-          <transitional>000000000000000000000000000000000000000000000000000000000000000000000
-            <pwr_up_transitional>000000000000000000000000000000000000000000000000000000000000000000000
+          <transitional>00000000000000000000
+            <pwr_up_transitional>00000000000000000000
             </pwr_up_transitional>
           </transitional>
           <storage_qualifier_level type="basic">
@@ -439,7 +172,7 @@
           </storage_qualifier_level>
         </storage_qualifier_events>
         <log>
-          <data global_temp="1" name="log: 2017/06/21 16:48:54  #0" power_up_mode="false" sample_depth="127" trigger_position="16">000000000101000100001111001100011100101000000111011000100000001000110000000000101000100001110000010011100101000000101000100100000001000110000000000101000100001111000010011100101000000111000100100000001000110000000000101000100001110001010011100101000000101010100100000001000110000000000101000100001111001010011100101000000111010100100000001000110000000000101000100001110000110011100101000000101001100100000001000110000000000101000100001111000110011100101000000111001100100000001000110000000000101000100001110001110011100101000000101011100100000001000110000000000101000100001111001110011100101000000111011100100000001000110000000000101000100001110000001011100101000000101000010100000001000110000000000101000100001111000001011100101000000111000010100000001000110000000000101000100001110001001011100101000000101010010100000001000110000000000101000100001111001001011100101000000111010010100000001000110000000000101000100001110000101011100101000000101001010100000001000110000000000101000100001111000101011100101000000111001010100000001000110000000000101000100001110001101011100101000000101011010100000001000110000000000101000100001111001101011100101000000111011010100000001000110000000000101000100001110000011011100101000000101000110100000001000110000000000101000100001111000011011100101000000111000110100000001000110000000000101000100001110001011011100101000000101010110100000001000110000000000101000100001111001011011100101000000111010110100000001000110000000000101000100001110000111011100101000000101001110100000001000110000000000101000100001111000111011100101000000111001110100000001000110000000000101000100001110001111011100101000000101011110100000001000110000000000101000100001111001111011100101000000111011110100000001000110000000000101000100001110000000111100101000000101000001100000001000110000000000101000100001111000000111100101000000111000001100000001000110000000000101000100001110001000111100101000000101010001100000001000110000000000101000100001111001000111100101000000111010001100000001000110000000000101000100001110000100111100101000000101001001100000001000110000000000101000100001111000100111100101000000111001001100000001000110000000000101000100001110001100111100101000000101011001100000001000110000000000101000100001111001100111100101000000111011001100000001000110000000000101000100001110000010111100101000000101000101100000001000110000000000101000100001111000010111100101000000111000101100000001000110000000000101000100001110001010111100101000000101010101100000001000110000000000101000100001111001010111100101000000111010101100000001000110000000000101000100001110000110111100101000000101001101100000001000110000000000101000100001111000110111100101000000111001101100000001000110000000000101000100001110001110111100101000000101011101100000001000110000000000101000100001111001110111100101000000111011101100000001000110000000000101000100001110000001111100101000000101000011100000001000110000000000101000100001111000001111100101000000111000011100000001000110000000000101000100001110001001111100101000000101010011100000001000110000000000101000100001111001001111100101000000111010011100000001000110000000000101000100001110000101111100101000000101001011100000001000110000000000101000100001111000101111100101000000111001011100000001000110000000000101000100001110001101111100101000000101011011100000001000110000000000101000100001111001101111100101000000111011011100000001000110000000000101000100001110000011111100101000000101000111100000001000110000000000101000100001111000011111100101000000111000111100000001000110000000000101000100001110001011111100101000000101010111100000001000110000000000101000100001111001011111100101000000111010111100000001000110000000000101000100001110000111111100101000000101001111100000001000110000000000101000100001111000111111100101000000111001111100000001000110000000000101000100001110001111111100101000000101011111100000001000110000000000101000100001111001111111100101000000111011111100000001000110000000000101000100001110000000000010101000000101000000010000001000110000000000101000100001111000000000010101000000111000000010000001000110000000000101000100001110001000000010101000000101010000010000001000110000000000101000100001111001000000010101000000111010000010000001000110000000000101000100001110000100000010101000000101001000010000001000110000000000101000100001111000100000010101000000111001000010000001000110000000000101000100001110001100000010101000000101011000010000001000110000000000101000100001111001100000010101000000111011000010000001000110000000000101000100001110000010000010101000000101000100010000001000110000000000101000100001111000010000010101000000111000100010000001000110000000000101000100001110001010000010101000000101010100010000001000110000000000101000100001111001010000010101000000111010100010000001000110000000000101000100001110000110000010101000000101001100010000001000110000000000101000100001111000110000010101000000111001100010000001000110000000000101000100001110001110000010101000000101011100010000001000110000000000101000100001111001110000010101000000111011100010000001000110000000000101000100001110000001000010101000000101000010010000001000110000000000101000100001111000001000010101000000111000010010000001000110000000000101000100001110001001000010101000000101010010010000001000110000000000101000100001111001001000010101000000111010010010000001000110000000000101000100001110000101000010101000000101001010010000001000110000000000101000100001111000101000010101000000111001010010000001000110000000000101000100001110001101000010101000000101011010010000001000110000000000101000100001111001101000010101000000111011010010000001000110000000000101000100001110000011000010101000000101000110010000001000110000000000101000100001111000011000010101000000111000110010000001000110000000000101000100001110001011000010101000000101010110010000001000110000000000101000100001111001011000010101000000111010110010000001000110000000000101000100001110000111000010101000000101001110010000001000110000000000101000100001111000111000010101000000111001110010000001000110000000000101000100001110001111000010101000000101011110010000001000110000000000101000100001111001111000010101000000111011110010000001000110000000000101000100001110000000100010101000000101000001010000001000110000000000101000100001111000000100010101000000111000001010000001000110000000000101000100001110001000100010101000000101010001010000001000110000000000101000100001111001000100010101000000111010001010000001000110000000000101000100001110000100100010101000000101001001010000001000110000000000101000100001111000100100010101000000111001001010000001000110000000000101000100001110001100100010101000000101011001010000001000110000000000101000100001111001100100010101000000111011001010000001000110000000000101000100001110000010100010101000000101000101010000001000110000000000101000100001111000010100010101000000111000101010000001000110000000000101000100001110001010100010101000000101010101010000001000110000000000101000100001111001010100010101000000111010101010000001000110000000000101000100001110000110100010101000000101001101010000001000110000000000101000100001111000110100010101000000111001101010000001000110000000000101000100001110001110100010101000000101011101010000001000110000000000101000100001111001110100010101000000111011101010000001000110000000000101000100001110000001100010101000000101000011010000001000110000000000101000100001111000001100010101000000111000011010000001000110000000000101000100001110001001100010101000000101010011010000001000110000000000101000100001111001001100010101000000111010011010000001000110000000000101000100001110000101100010101000000101001011010000001000110000000000101000100001111000101100010101000000111001011010000001000110000000000101000100001110001101100010101000000101011011010000001000110000000000101000100001111001101100010101000000111011011010000001000110000000000101000100001110000011100010101000000101000111010000001000110000000000101000100001111000011100010101000000111000111010000001000110000000000101000100001110001011100010101000000101010111010000001000110000000000101000100001111001011100010101000000111010111010000001000110000000000101000100001110000111100010101000000101001111010000001000110000000000101000100001111000111100010101000000111001111010000001000110000000000101000100001110001111100010101000000101011111010000001000110000000000101000100001111001111100010101000000111011111010000001000110000000000101000100001110000000010010101000000101000000110000001000110000000000101000100001111000000010010101000000111000000110000001000110000000000101000100001110001000010010101000000101010000110000001000110000000000101000100001111001000010010101000000111010000110000001000110000000000101000100001110000100010010101000000101001000110000001000110000000000101000100001111000100010010101000000111001000110000001000110000000000101000100001111000110100101111111111110001101011110100011111</data>
+          <data global_temp="1" name="log: 2017/06/23 10:38:57  #0" power_up_mode="false" sample_depth="127" trigger_position="16">0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</data>
           <extradata>1111111111111111T111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</extradata>
         </log>
       </trigger>
@@ -447,4 +180,10 @@
   </instance>
   <mnemonics/>
   <static_plugin_mnemonics/>
+  <global_info>
+    <single attribute="active instance" value="0"/>
+    <single attribute="lock mode" value="36110"/>
+    <multi attribute="column width" size="23" value="34,34,260,74,68,70,88,88,98,98,88,88,110,101,101,101,101,101,101,101,101,107,78"/>
+    <multi attribute="window position" size="9" value="1596,798,398,124,0,50,124,0,0"/>
+  </global_info>
 </session>

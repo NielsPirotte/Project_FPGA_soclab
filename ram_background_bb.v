@@ -4,7 +4,7 @@
 // MODULE: altsyncram 
 
 // ============================================================
-// File Name: background.v
+// File Name: ram_background.v
 // Megafunction Name(s):
 // 			altsyncram
 //
@@ -31,18 +31,18 @@
 //Altera or its authorized distributors.  Please refer to the 
 //applicable agreement for further details.
 
-module background (
+module ram_background (
 	address,
 	clock,
 	data,
 	wren,
 	q);
 
-	input	[15:0]  address;
+	input	[14:0]  address;
 	input	  clock;
-	input	[11:0]  data;
+	input	[1:0]  data;
 	input	  wren;
-	output	[11:0]  q;
+	output	[1:0]  q;
 
 endmodule
 
@@ -69,7 +69,7 @@ endmodule
 // Retrieval info: PRIVATE: JTAG_ID STRING "NONE"
 // Retrieval info: PRIVATE: MAXIMUM_DEPTH NUMERIC "0"
 // Retrieval info: PRIVATE: MIFfilename STRING "background.mif"
-// Retrieval info: PRIVATE: NUMWORDS_A NUMERIC "65536"
+// Retrieval info: PRIVATE: NUMWORDS_A NUMERIC "32768"
 // Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "0"
 // Retrieval info: PRIVATE: READ_DURING_WRITE_MODE_PORT_A NUMERIC "3"
 // Retrieval info: PRIVATE: RegAddr NUMERIC "1"
@@ -79,8 +79,8 @@ endmodule
 // Retrieval info: PRIVATE: SingleClock NUMERIC "1"
 // Retrieval info: PRIVATE: UseDQRAM NUMERIC "1"
 // Retrieval info: PRIVATE: WRCONTROL_ACLR_A NUMERIC "0"
-// Retrieval info: PRIVATE: WidthAddr NUMERIC "16"
-// Retrieval info: PRIVATE: WidthData NUMERIC "12"
+// Retrieval info: PRIVATE: WidthAddr NUMERIC "15"
+// Retrieval info: PRIVATE: WidthData NUMERIC "2"
 // Retrieval info: PRIVATE: rden NUMERIC "0"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_INPUT_A STRING "BYPASS"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_OUTPUT_A STRING "BYPASS"
@@ -88,31 +88,31 @@ endmodule
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone II"
 // Retrieval info: CONSTANT: LPM_HINT STRING "ENABLE_RUNTIME_MOD=NO"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "altsyncram"
-// Retrieval info: CONSTANT: NUMWORDS_A NUMERIC "65536"
+// Retrieval info: CONSTANT: NUMWORDS_A NUMERIC "32768"
 // Retrieval info: CONSTANT: OPERATION_MODE STRING "SINGLE_PORT"
 // Retrieval info: CONSTANT: OUTDATA_ACLR_A STRING "NONE"
 // Retrieval info: CONSTANT: OUTDATA_REG_A STRING "UNREGISTERED"
 // Retrieval info: CONSTANT: POWER_UP_UNINITIALIZED STRING "FALSE"
-// Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "16"
-// Retrieval info: CONSTANT: WIDTH_A NUMERIC "12"
+// Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "15"
+// Retrieval info: CONSTANT: WIDTH_A NUMERIC "2"
 // Retrieval info: CONSTANT: WIDTH_BYTEENA_A NUMERIC "1"
-// Retrieval info: USED_PORT: address 0 0 16 0 INPUT NODEFVAL address[15..0]
+// Retrieval info: USED_PORT: address 0 0 15 0 INPUT NODEFVAL address[14..0]
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT NODEFVAL clock
-// Retrieval info: USED_PORT: data 0 0 12 0 INPUT NODEFVAL data[11..0]
-// Retrieval info: USED_PORT: q 0 0 12 0 OUTPUT NODEFVAL q[11..0]
+// Retrieval info: USED_PORT: data 0 0 2 0 INPUT NODEFVAL data[1..0]
+// Retrieval info: USED_PORT: q 0 0 2 0 OUTPUT NODEFVAL q[1..0]
 // Retrieval info: USED_PORT: wren 0 0 0 0 INPUT NODEFVAL wren
-// Retrieval info: CONNECT: @address_a 0 0 16 0 address 0 0 16 0
-// Retrieval info: CONNECT: q 0 0 12 0 @q_a 0 0 12 0
+// Retrieval info: CONNECT: @address_a 0 0 15 0 address 0 0 15 0
+// Retrieval info: CONNECT: q 0 0 2 0 @q_a 0 0 2 0
 // Retrieval info: CONNECT: @clock0 0 0 0 0 clock 0 0 0 0
-// Retrieval info: CONNECT: @data_a 0 0 12 0 data 0 0 12 0
+// Retrieval info: CONNECT: @data_a 0 0 2 0 data 0 0 2 0
 // Retrieval info: CONNECT: @wren_a 0 0 0 0 wren 0 0 0 0
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
-// Retrieval info: GEN_FILE: TYPE_NORMAL background.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL background.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL background.cmp FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL background.bsf TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL background_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL background_bb.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL background_waveforms.html TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL background_wave*.jpg FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL ram_background.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL ram_background.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL ram_background.cmp FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL ram_background.bsf TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL ram_background_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL ram_background_bb.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL ram_background_waveforms.html TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL ram_background_wave*.jpg FALSE
 // Retrieval info: LIB_FILE: altera_mf

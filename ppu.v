@@ -69,17 +69,18 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, sprites, statics, test)
 		// xpos, ypos in world each 11 bits
 		// char
 		// attribute -> color
-		reg [31:0] sprite1, sprite2;
-		wire [11:0] display_x_sp1 /* synthesis keep */;
-		wire [11:0] display_x_sp2 /* synthesis keep */;
-		wire [10:0] display_y_sp1 /* synthesis keep */;
-		wire [10:0] display_y_sp2 /* synthesis keep */;
+		reg [31:0] sprite1;
+		reg [31:0] sprite2;
+		wire [11:0] display_x_sp1;
+		wire [11:0] display_x_sp2;
+		wire [10:0] display_y_sp1;
+		wire [10:0] display_y_sp2;
 		
-		assign display_x_sp1 = {sprite1[31:23],{2{1'b0}}}+ 640;
-		assign display_x_sp2 = {sprite2[31:23],{2{1'b0}}}+ 640;
+		assign display_x_sp1 = {sprite1[31:23],{2{1'b0}}};
+		assign display_x_sp2 = {sprite2[31:23],{2{1'b0}}};
 		
-		assign display_y_sp1 = 900-{sprite1[22:14],{2{1'b0}}};
-		assign display_y_sp2 = 900-{sprite2[22:14],{2{1'b0}}};
+		assign display_y_sp1 = 770-{sprite1[22:14],{2{1'b0}}};
+		assign display_y_sp2 = 770-{sprite2[22:14],{2{1'b0}}};
 		
 		
 		
@@ -173,22 +174,23 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, sprites, statics, test)
 		end
 		
 		//select the sprite to display
-		reg [7:0] selSprite;
+		reg [31:0] selSprite;
 		reg negx;
-		reg [6:0] relxs;
-		reg [7:0] relys;
+		reg [6:0] relxs; 
+		reg [7:0] relys; 
 		always @(sprite1 or sprite2 or relx_s1 or rely_s1 or negy_s1 or negx_s1 or relx_s2 or rely_s2 or negy_s2 or negx_s2) begin
 			selSprite = 0;
 			negx = 0;
 			relxs = 0;
 			relys = 0;
-			if((relx_s1 < 64) && (rely_s1<210) && !negy_s1) begin 
+			
+			if((relx_s1 < 64) && (rely_s1<210) && !negy_s1) begin
 				selSprite = sprite1[7:0];
 				negx = negx_s1;
 				relxs = relx_s1[6:0];
 				relys = rely_s1[7:0];
 			end
-			if((relx_s2 < 64) && (rely_s2<210) && !negy_s2) begin
+			else if ((relx_s2 < 64) && (rely_s2<210) && !negy_s2) begin
 				selSprite = sprite2[7:0];
 				negx = negx_s2;
 				relxs = relx_s2[6:0];
@@ -251,15 +253,24 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, sprites, statics, test)
 	//attribute table -> written each jump of hor line - row
 	//select = #sprite number
 	wire [3:0] spriteout;
-	//mov_sprite_mem msm(.clock(clock), .selanim(selSprite[6:3]), .selframe(selSprite[2:1]), .x(relxs), .y(relys), 
-	//				   .nx(negx), .out(spriteout), .mirror(!selSprite[7]));
-	mov_sprite_mem msm(.clock(clock), .selanim(4'b0101), .selframe(test), .x(relxs), .y(relys), 
-					   .nx(negx), .out(spriteout), .mirror(1'b0));
+	mov_sprite_mem msm(.clock(clock), .selanim(selSprite[6:3]), .selframe(selSprite[2:1]), .x(relxs), .y(relys), 
+					   .nx(negx), .out(spriteout), .mirror(!selSprite[7]));
+	//mov_sprite_mem msm(.clock(clock), .selanim(4'b0010), .selframe(sprite1[2:1]), .x(relxs), .y(relys), 
+	//				   .nx(negx), .out(spriteout), .mirror(1'b1));
 	
 	//determine what needs to be rendered on this pos
 	//sprite has priority over static
-	wire [4:0] spritebuf;
-	assign spritebuf = {1'b0, spriteout};
+	reg [4:0] spritebuf;
+	always @(selSprite[0], spriteout) begin
+		spritebuf = {1'b0, spriteout};
+		if(selSprite[0]) begin
+			case(spriteout)
+				2: spritebuf = 6;
+				9: spritebuf = 13;
+				10: spritebuf = 14;
+			endcase
+		end
+	end
 	
 	//colortable
 	//the most sig bit of the selColor address selects if the map or the spirte colortable is used
@@ -272,7 +283,7 @@ module ppu(clock, reset, hsync, vsync, red, green, blue, sprites, statics, test)
 	//synthesise colors of map and colors of sprites
 	reg [23:0] colors;
 	always @(map_enable or scolors or mapcolors) begin
-		if(map_enable) colors = 0;//{mapcolors[11:8], {4{1'b0}}, mapcolors[7:4], {4{1'b0}}, mapcolors[3:0], {4{1'b0}}};
+		if(map_enable || (scolors == 0)) colors = {mapcolors[11:8], {4{1'b0}}, mapcolors[7:4], {4{1'b0}}, mapcolors[3:0], {4{1'b0}}};
 		else colors = scolors;
 	end
 

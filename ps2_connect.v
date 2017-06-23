@@ -24,7 +24,7 @@ module ps2_connect(clock, reset, GPIO_0, c1, c2);
 		if(reset) begin
 			timer = 0;
 		end
-		else if(timer > 1000000) begin
+		else if(timer > 500000) begin
 			timer = 0;
 		end
 		else if(arduinoInput > 0) begin
@@ -40,14 +40,23 @@ module ps2_connect(clock, reset, GPIO_0, c1, c2);
 			c2 = 0;
 			fixed = 0;
 		end
-		else if(timer==1000000)begin
-			if(cSelect) begin
-				c2 = controller;
+		else begin
+			if(arduinoInput == 0) begin
+				c1 = 0;
+				c2 = 0;
 			end
-			else begin
-				c1 = controller;
+		
+			if(timer==500000)begin
+				if(cSelect) begin
+					c2 = controller;
+					//c1 = 0;
+				end
+				else begin
+					c1 = controller;
+					//c2 = 0;
+				end
+				fixed = 1;
 			end
-			fixed = 1;
 		end
 	end
   
@@ -57,7 +66,7 @@ module ps2_connect(clock, reset, GPIO_0, c1, c2);
 		if(reset) begin
 			controller = 0;
 		end
-		else if(fixed == 0) begin
+		else if(/*fixed == 0*/1) begin
 			case(arduinoInput)
 				1 : begin controller = 10'b0000000001; end //CIRCLE
 				2 : begin controller = 10'b0000000010; end //CROSS
@@ -66,10 +75,10 @@ module ps2_connect(clock, reset, GPIO_0, c1, c2);
 				5 : begin controller = 10'b0000010000; end //LEFT
 				6 : begin controller = 10'b0000100000; end //RIGHT
 				7 : begin controller = 10'b0001000000; end //UP
-				8 : begin controller = 10'b00100000000; end //DOWN
-				9 : begin controller = 10'b01000000000; end //R1
+				8 : begin controller = 10'b0010000000; end //DOWN
+				9 : begin controller = 10'b0100000000; end //R1
 				10 : begin controller = 10'b1000000000; end //START
-				default : ; //NONE				
+				default : controller = 0; //NONE				
 			endcase
 		end
     end

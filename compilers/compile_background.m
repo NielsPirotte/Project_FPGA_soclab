@@ -1,4 +1,4 @@
-A = imread('background_test_bit.jpg'); %256 * 256
+A = imread('background_test_bit_brown.jpg'); %256 * 256
 [n, m, c] = size(A);
 
 %threshold = 100;
@@ -28,6 +28,11 @@ for i = 1:n
         pixelvalgh = pixelvalgh(1);
         pixelvalbh = dec2hex(pixelvalb);
         pixelvalbh = pixelvalbh(1);
+        
+        if pixelvalrh == 'F'
+           pixelvalgh = 'F';
+           pixelvalbh = 'F';
+        end
         
         formatSpec2 = '%s%s%s ;\n';
         fprintf(fileID, formatSpec2, pixelvalrh, pixelvalgh, pixelvalbh);
