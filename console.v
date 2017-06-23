@@ -1,4 +1,5 @@
 //A console for playing a fighting game
+//The goal of the game is knocking out your opponent whit a variation of attacks
 //interface: leds for feedback, reset button, VGA interface, switches for settings 
 
 module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVGA_CLOCK, oVGA_SYNC_N, oVGA_BLANK_N, oLEDR, GPIO_0);
@@ -53,8 +54,8 @@ module console(iCLK_50, iKEY, iSW, oVGA_R, oVGA_G, oVGA_B, oVGA_HS, oVGA_VS, oVG
 	//the game statemachine
 	wire [9:0] controller1;
 	wire [9:0] controller2;
-	statemachine sm(.clock(clock), .reset(reset), .controller1(controller1), .controller2(controller2), .sprites(sprites), .statics(statics),
-					.test(oLEDR[17]));
+	statemachine sm(.clock(clock), .reset(reset), .controller1(controller1), .controller2(controller2), 
+					.sprites(sprites), .statics(statics), .test(oLEDR[17]));
 	
 	//input
 	ps2_connect inputcontroller(.clock(clock), .reset(reset), .GPIO_0(GPIO_0), .c1(controller1), .c2(controller2));

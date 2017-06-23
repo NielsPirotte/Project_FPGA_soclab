@@ -1,3 +1,5 @@
+//Some info needed for creating the statemachine
+
 //Controller info
 //CIRCLE = 0000000001
 //CROSS = 0000000010
@@ -9,6 +11,24 @@
 //DOWN = 0010000000
 //R1 = 0100000000
 //START = 1000000000
+
+//Player status
+//status = what is the character doing:
+//status: -> 7 bits
+//2 bits -> type attack
+//get hit?
+//Jump
+//Duck
+//Block
+//Moving
+
+//Information needed for portraying character by the ppu
+//reg [8:0] p1_posx, p1_posy;
+//reg [5:0] p1_health;
+//reg p1_left;
+//reg [3:0] p1_animation;
+//reg [1:0] p1_animationframe;
+//reg color;
 
 module statemachine(clock, reset, controller1, controller2, sprites, statics, test);
 
@@ -26,31 +46,13 @@ assign statics = 0;
 //declaration of the statemachine
 //Startmenu--> Init mode --> input mode --> end of game
 reg [3:0] gamestate;
-
-//Player status
-//status = what is the character doing:
-	//attack (3bit)
-	//defend
-	//duck
-	//jump
-	//health (5bit)
-	//(posx (8bit), posy (8bit))
-	//different animations 16 --> 4bit
-	//different animation frames 64 --> 6bit
-
-//reg [8:0] p1_posx, p1_posy;
-//reg [5:0] p1_health;
-//reg p1_left;
-//reg [3:0] p1_animation;
-//reg [1:0] p1_animationframe;
-//reg color;
 reg [31:0] player1, player2;
 
 //sets players and sprites
 assign sprites = {player1, player2};
 
 //counter for timing
-reg [22:0] state_counter;
+reg [21:0] state_counter;
 reg update_gamestate; //each 25ms --> 2.701.000 counts is +-25ms
 reg [23:0] frame_counter; 
 reg update_frame; //60fps -->1.800.500 counts is +- 16.6ms
@@ -66,7 +68,7 @@ always @(posedge clock or posedge reset) begin
 	end
 	else begin
 		//state pulse
-		if(state_counter < 500100) begin
+		if(state_counter < 2701000) begin
 			state_counter = state_counter + 1;
 			update_gamestate = 0;
 		end
@@ -92,7 +94,7 @@ end
 reg [3:0] delay;
 
 //controller buffers
-reg [9:0] controller1buffer, controller2buffer, cbuf1, cbuf2;
+reg [9:0] controller1buffer, controller2buffer;
 
 //Gameflow state machine
 always @(posedge clock or posedge reset) begin
@@ -101,15 +103,11 @@ always @(posedge clock or posedge reset) begin
 		delay = 0;
 		controller1buffer = 0;
 		controller2buffer = 0;
-		//reset_controls = 0;
 	end
 	else begin
-		//reset_controls = 0;
 		case (gamestate)
 			0:
 			//Start menu - select character
-			//pause game
-			//if startbutton is het continue
 				if(/*startbutton*/1) gamestate = 1;
 			1: 
 			//initialize game
@@ -125,35 +123,30 @@ always @(posedge clock or posedge reset) begin
 				if(/*startbutton*/0) gamestate = 3;
 			3:
 			//check for inputs
-			if(p1_dead || p2_dead) gamestate = 4;
-			else begin
-				if(/*startbutton*/0) gamestate = 2;
+				if(p1_dead || p2_dead) gamestate = 4;
 				else begin
-					if (controller1 != 0) controller1buffer = controller1;
-					else if (reset_read1) controller1buffer = 0;
-					//reset_controls = 1;
-					if (controller2 != 0) controller2buffer = controller2;
-					else if (reset_read2) controller2buffer = 0;
-					//reset_controls = 1;
+					if(/*startbutton*/0) gamestate = 2;
+					else begin
+						//Input buffering
+						if (controller1 != 0) controller1buffer = controller1;
+						else if (reset_read1) controller1buffer = 0;
+						if (controller2 != 0) controller2buffer = controller2;
+						else if (reset_read2) controller2buffer = 0;
+					end
 				end
-			end
-			
 			4:
-			//end of game
-			if(update_gamestate) begin
-				if(delay < 12) delay = delay + 1;
-				else begin
-					delay = 0;
-					//Back to begin of the game
-					gamestate = 0;
-				end
-			end 
+				//end of game
+				if(update_gamestate) begin
+					if(delay < 12) delay = delay + 1;
+					else begin
+						delay = 0;
+						//Back to begin of the game
+						gamestate = 0;
+					end
+				end 
 		endcase
 	end
 end
-
-//processing of controller input player 1
-//Set player 1 status based on the input of controller 1
 
 //for processing game mechanics, we need the distance between the characters
 reg close;
@@ -170,29 +163,20 @@ always @(p1_posx or p2_posx or distance) begin
 	end
 end
 
-//PLAYER1
-//status: -> 7 bits
-//2 bits -> type attack
-//get hit
-//Jump
-//Duck
-//Block
-//Moving
-
+//PLAYER1 ppu information
 //health 6 bits
 reg p1_left;
 reg p1_dead;
 reg [6:0] p1_status;
 reg [5:0] p1_health;
-//672 is middle of screen
-reg [8:0] p1_posx, p1_posy;
+reg [8:0] p1_posx, p1_posy; //672 is middle of screen
 
-//processing of controller input player 2
+//PLAYER2 ppu information
 reg p2_left;
 reg p2_dead;
-reg [8:0] p2_posx, p2_posy;
 reg [6:0] p2_status;
 reg [5:0] p2_health;
+reg [8:0] p2_posx, p2_posy; //672 is middle of screen
 
 //check if player 1 is dead
 always @(p1_health) begin
@@ -205,7 +189,6 @@ always @(p2_health) begin
 	if(p2_health<=0) p2_dead = 1;
 end
 
-
 //Statemachine player1 and 2
 reg reset_read1, reset_read2;
 always @(posedge clock or posedge reset) begin
@@ -217,58 +200,59 @@ always @(posedge clock or posedge reset) begin
 		reset_read2 = 0;
 	end
 	else begin
-	reset_read1 = 0;
-	reset_read2 = 0;
-	if(animation_ended_p1) begin
-		reset_read1 = 1;
-		case(controller1buffer)
-			//add attacks and move options
-			10'b0000000001: p1_status = 7'b1100010;
-			10'b0000000010: p1_status = 7'b0001000;
-			10'b0000000100: p1_status = 7'b0100000;
-			10'b0000001000: p1_status = 7'b1000010;
-			10'b0000010000: begin
-				p1_status = 7'b0000001;//Links
-				if(p1_left || (!p1_left && distance > 30)) p1_posx = p1_posx - 5;
-			end
-			10'b0000100000: begin 
-				p1_status = 7'b0000001;//Rechts
-				if(!p1_left || (p1_left && distance > 30)) p1_posx = p1_posx + 5;
-			end
-			//10'b0001000000:
-			10'b0010000000: p1_status = 7'b0000100;
-			10'b0100000000: p1_status = 7'b0000010;
-			//10'b1000000000:
-			default: p1_status = 0;
-		endcase
-	end
+		reset_read1 = 0;
+		reset_read2 = 0;
+		if(animation_ended_p1) begin
+			reset_read1 = 1;
+			case(controller1buffer)
+				//add attacks and move options
+				10'b0000000001: p1_status = 7'b1100010;//Circle -> Hight kick
+				10'b0000000010: p1_status = 7'b0001000;//Cross -> Jump
+				10'b0000000100: p1_status = 7'b0100000;//Square -> Low punch
+				10'b0000001000: p1_status = 7'b1000010;//Triangle -> Mid punch
+				10'b0000010000: begin
+					p1_status = 7'b0000001;//Left -> Move left
+					if(p1_left || (!p1_left && distance > 30)) p1_posx = p1_posx - 5;
+				end
+				10'b0000100000: begin 
+					p1_status = 7'b0000001;//Right -> Move right
+					if(!p1_left || (p1_left && distance > 30)) p1_posx = p1_posx + 5;
+				end
+				//10'b0001000000:
+				10'b0010000000: p1_status = 7'b0000100;//Down -> Duck
+				10'b0100000000: p1_status = 7'b0000010;//R1 -> Block
+				//10'b1000000000:
+				default: p1_status = 0;
+			endcase
+		end
+		//The same principle as above
 		if(animation_ended_p2) begin
-		reset_read2 = 1;
-		case(controller2buffer)
-			//add attacks and move options
-			10'b0000000001: p2_status = 7'b1100010;
-			10'b0000000010: p2_status = 7'b0001000;
-			10'b0000000100: p2_status = 7'b0100000;
-			10'b0000001000: p2_status = 7'b1000010;
-			10'b0000010000: begin
-				p2_status = 7'b0000001;//Links
-				if(p2_left || (!p2_left && distance > 30)) p2_posx = p2_posx - 5;
-			end
-			10'b0000100000: begin
-				p2_status = 7'b0000001;//Rechts
-				if(!p2_left || (p2_left && distance > 30)) p2_posx = p2_posx + 5;
-			end
-			//10'b0001000000:
-			10'b0010000000: p2_status = 7'b0000100; //Duck
-			10'b0100000000: p2_status = 7'b0000010; //Block
-			//10'b1000000000:
-			default: p2_status = 0;
-		endcase
-	end
+			reset_read2 = 1;
+			case(controller2buffer)
+				//add attacks and move options
+				10'b0000000001: p2_status = 7'b1100010;
+				10'b0000000010: p2_status = 7'b0001000;
+				10'b0000000100: p2_status = 7'b0100000;
+				10'b0000001000: p2_status = 7'b1000010;
+				10'b0000010000: begin
+					p2_status = 7'b0000001;
+					if(p2_left || (!p2_left && distance > 30)) p2_posx = p2_posx - 5;
+				end
+				10'b0000100000: begin
+					p2_status = 7'b0000001;
+					if(!p2_left || (p2_left && distance > 30)) p2_posx = p2_posx + 5;
+				end
+				//10'b0001000000:
+				10'b0010000000: p2_status = 7'b0000100;
+				10'b0100000000: p2_status = 7'b0000010;
+				//10'b1000000000:
+				default: p2_status = 0;
+			endcase
+		end
 	end
 end
 
-//Testing getting hit for player2
+//Testing getting hit for player1 and player2
 reg p1_hit, p2_hit;
 always @(posedge clock or posedge reset) begin
 	if(reset) begin
@@ -291,6 +275,7 @@ always @(posedge clock or posedge reset) begin
 	end
 end
 
+//Status buffers for timing purposes
 reg [6:0] p2_status_w, p1_status_w;
 always @(p1_hit or p1_status) begin
 	if(p1_hit) p1_status_w = 7'b0010000;
@@ -351,9 +336,7 @@ always @(posedge clock or posedge reset) begin
 	else prev_p2_animation = p2_animation;
 end
 
-
-//GOOD
-//Animationframes p1
+//Select animationframes p1
 reg [1:0] p1_animationframe;
 reg animation_ended_p1;
 always @(posedge clock or posedge reset) begin
@@ -381,7 +364,7 @@ always @(posedge clock or posedge reset) begin
 	end
 end
 
-//Animationframes p2
+////Select animationframes p2
 reg [1:0] p2_animationframe;
 reg animation_ended_p2;
 always @(posedge clock or posedge reset) begin

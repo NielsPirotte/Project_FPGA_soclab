@@ -1,7 +1,12 @@
 module mov_sprite_mem(clock, selanim, selframe, x, y, nx, out, mirror);
 
+//There are 3 different animation types:
+//1 frame: 50x105 => 13 bit address
+//4 frames: 50x105 each => 15 bit address
+//4 frames: 64x105 each => 15 bit address
+
 input clock;
-//posistioning
+//positioning
 input [6:0] x;
 input [7:0] y;
 //for selecting correct animation and frame
@@ -13,9 +18,7 @@ input mirror;
 
 output reg [3:0] out;
 
-wire [12:0] address_single; 	//1 frame: 50x105 => 13 bit address
-//4 frames: 50x105 each => 15 bit address
-//4 frames: 64x105 each => 15 bit address
+wire [12:0] address_single; 
 wire [14:0] address_frame;
 wire [14:0] address_normal;
 
@@ -41,16 +44,17 @@ always @(selanim) begin
 end
 
 //for picturing on coordinates
+//calculate the correct x position for input in the ram module depending on the animation type
 reg [6:0] picx;
 reg no_out;
 always @(x or nx or mirror or selanim or type_attack) begin
 	no_out = 0;
 	if(type_attack == 2) begin
 		if(nx ^ mirror) begin
-			picx = 64 - x;
+			picx = 63 - x;
 		end
 		else begin
-			picx = x + 64;
+			picx = x + 63;
 		end
 	end
 	else begin //0 or 1
@@ -69,11 +73,11 @@ always @(x or nx or mirror or selanim or type_attack) begin
 	end
 end
 
-//calculate correct y, because is reversed
+//calculate correct y, because reversed
 wire [7:0] picy;
 assign picy = 210 - y;
 
-//x is bij single 6 bit en 8 bit bij enkel
+//calculate the correct x position for input in the ram module
 reg [7:0] framex;
 always @(selframe or type_attack or picx) begin
 	case(type_attack)
@@ -102,11 +106,8 @@ assign address_normal =  framex + 200*picy[7:1];
 assign address_frame = {picy[7:1], framex};
 
 
-
 wire [3:0] idle_out, walking_out, hit_out, jump_out, mid_punch_out, high_kick_out, 
 		 low_punch_out, block_high_out, block_low_out, crouch_out;
-		 
-//Sprite1
 	//pattern for idle state
 ram_idle_sprite idle(.clock(clock), .address(address_normal), .wren(1'b0), .data({4{1'b0}}), .q(idle_out));
 	//pattern for walking
@@ -128,7 +129,7 @@ ram_block_low_sprite block_low(.clock(clock), .address(address_single), .wren(1'
 	//pattern for crouch
 ram_crouch_sprite crouch(.clock(clock), .address(address_single), .wren(1'b0), .data({4{1'b0}}), .q(crouch_out));
 
-//select the correct sprite
+//select the correct sprite (Output multiplexer)
 always @(selanim or idle_out or walking_out or hit_out or jump_out or mid_punch_out or high_kick_out or
 		 low_punch_out or block_high_out or block_low_out or crouch_out or no_out) begin
 	if(no_out) out = 0;

@@ -14,7 +14,6 @@ module ps2_connect(clock, reset, GPIO_0, c1, c2);
 	
 	reg [9:0] controller;
 	reg [20:0] timer;
-	reg fixed = 0;
 	
 	assign arduinoInput = GPIO_0[3:0];
 	assign cSelect = GPIO_0[4];
@@ -38,22 +37,21 @@ module ps2_connect(clock, reset, GPIO_0, c1, c2);
 		if(reset) begin
 			c1 = 0;
 			c2 = 0;
-			fixed = 0;
 		end
-		else if(timer==500000)begin
-			if(cSelect) begin
-				c2 = controller;
-				//c1 = 0;
-			end
-			else begin
-				c1 = controller;
-				//c2 = 0;
-			end
+		else begin
 			if(arduinoInput == 0) begin
 				c1 = 0;
 				c2 = 0;
 			end
-			fixed = 1;
+		
+			if(timer==500000)begin
+				if(cSelect) begin
+					c2 = controller;
+				end
+				else begin
+					c1 = controller;
+				end
+			end
 		end
 	end
   
